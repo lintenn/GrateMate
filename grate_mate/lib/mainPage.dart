@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grate_mate/recipe.dart';
 
 class MainPage extends StatefulWidget{
   @override
@@ -6,6 +7,11 @@ class MainPage extends StatefulWidget{
 }
 
 class _MainPageState extends State<MainPage>{
+
+  Recipe recipe = Recipe("Crepes", "Original french dessert",
+      ["Prepare ingredients","Finish recipe"],
+      3, 30,
+      "https://vod-hogarmania.atresmedia.com/hogarmania/images/images01/2019/05/20/5ce265e7fa7dec0001ed6f24/1239x697.jpg");
 
   final _searchController = TextEditingController();
   bool _showError = false;
@@ -91,8 +97,8 @@ class _MainPageState extends State<MainPage>{
                   Card(
                     child: ListTile(
                       leading:
-                      Image.network('https://i.imgur.com/v6B7cZsb.jpg'),
-                      title: Text('Dummy Image 1'),
+                      Image.network(recipe.imageURL),
+                      title: Text(recipe.name),
                     ),
                   ),
                   Card(

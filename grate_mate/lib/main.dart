@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'mainPage.dart';
+
+
 void main() {
   runApp(const MyApp());
 }
@@ -74,32 +76,6 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  final _searchController = TextEditingController();
-  bool _showError = false;
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _search() {
-    if (_searchController.text.isEmpty) {
-      setState(() {
-        _showError = true;
-      });
-      Future.delayed(const Duration(seconds: 3), () {
-        setState(() {
-          _showError = false;
-        });
-      });
-    } else {
-      // Almacena el valor de la búsqueda en una variable
-      String searchValue = _searchController.text;
-      print(searchValue);
-    }
   }
 
   @override
