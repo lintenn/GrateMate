@@ -96,24 +96,34 @@ class _MainPageState extends State<MainPage>{
                     child: Card(
                       margin: const EdgeInsets.all(10.0),
                       child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('.../assets/crepes.jpg'),
-                                fit: BoxFit.cover,
+                          children: <Widget>[
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RecipeScreen(),
+                                ),
+                              );
+                            },
+                            Container(
+                              width: 150,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(globalRecipes.recipes[index].imageURL),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
+                            SizedBox(height: 8),
+                            Text(
+                              globalRecipes.recipes[index].name,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 8),
+                            Text(globalRecipes.recipes[index].description),
                           ),
-                          SizedBox(height: 8),
-                          Text(
-                            globalRecipes.recipes[index].name,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 8),
-                          Text(globalRecipes.recipes[index].description),
                         ],
                       ),
                     ),
