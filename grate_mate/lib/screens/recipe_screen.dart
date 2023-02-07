@@ -78,6 +78,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
             margin: EdgeInsets.only(top: 10),
             child: TabBar(
               controller: _tabController,
+              labelColor: Colors.black,
               tabs: <Widget>[ // The tab texts should be in black
                 Tab(
                   text: 'Ingredients',
