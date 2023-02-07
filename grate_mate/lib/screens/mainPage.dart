@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream:grate_mate/lib/mainPage.dart
 import 'package:grate_mate/recipe.dart';
 import 'package:grate_mate/screens/recipe_screen.dart';
+=======
+import 'package:grate_mate/models/recipe.dart';
+import '../models/globalRecipes.dart' as globalRecipes;
+>>>>>>> Stashed changes:grate_mate/lib/screens/mainPage.dart
 
 class MainPage extends StatefulWidget{
   @override
@@ -8,11 +13,6 @@ class MainPage extends StatefulWidget{
 }
 
 class _MainPageState extends State<MainPage>{
-
-  Recipe recipe = Recipe("Crepes", "Original french dessert",
-      ["Prepare ingredients","Finish recipe"],
-      3, 30,
-      "https://vod-hogarmania.atresmedia.com/hogarmania/images/images01/2019/05/20/5ce265e7fa7dec0001ed6f24/1239x697.jpg");
 
   final _searchController = TextEditingController();
   bool _showError = false;
@@ -93,6 +93,7 @@ class _MainPageState extends State<MainPage>{
             )
                 : Container(),
             Expanded(
+<<<<<<< Updated upstream:grate_mate/lib/mainPage.dart
               child: ListView(
                 children: <Widget>[
                   GestureDetector(
@@ -131,9 +132,38 @@ class _MainPageState extends State<MainPage>{
                       leading:
                       Image.network('https://i.imgur.com/eTuCPxMb.jpg'),
                       title: Text('Dummy Image 4'),
+=======
+              child: GridView.count(
+                crossAxisCount: 2,
+                children: List.generate(globalRecipes.recipes.length, (index) {
+                  return Center(
+                    child: Card(
+                      margin: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: 150,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(globalRecipes.recipes[index].imageURL),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            globalRecipes.recipes[index].name,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 8),
+                          Text(globalRecipes.recipes[index].description),
+                        ],
+                      ),
+>>>>>>> Stashed changes:grate_mate/lib/screens/mainPage.dart
                     ),
-                  ),
-                ],
+                  );
+                }),
               ),
             ),
           ],

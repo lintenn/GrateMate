@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grate_mate/screens/recipe_screen.dart';
-import 'mainPage.dart';
+import 'screens/mainPage.dart';
 
 
 void main() {
