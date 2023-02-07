@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grate_mate/recipe.dart';
+import 'package:grate_mate/screens/recipe_screen.dart';
 
 class MainPage extends StatefulWidget{
   @override
@@ -94,11 +95,21 @@ class _MainPageState extends State<MainPage>{
             Expanded(
               child: ListView(
                 children: <Widget>[
-                  Card(
-                    child: ListTile(
-                      leading:
-                      Image.network(recipe.imageURL),
-                      title: Text(recipe.name),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RecipeScreen(),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      child: ListTile(
+                        leading:
+                        Image.network(recipe.imageURL),
+                        title: Text(recipe.name),
+                      ),
                     ),
                   ),
                   Card(

@@ -48,19 +48,13 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                   alignment: Alignment.center,
                   child: Container(
                     margin: EdgeInsets.only(top: 160),
-                    child: ElevatedButton(
+                    child: ElevatedButton.icon(
+                      icon: Icon(Icons.play_arrow),
+                      label: Text('Cook with GrateMate'),
                       onPressed: () {
-                        // Navigate to the GrateMate screen
+                        // Start cooking spaghetti bolognese
+                        print('Cooking spaghetti bolognese');
                       },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.play_arrow),
-                          SizedBox(width: 10),
-                          Text('Cook with GrateMate'),
-
-                        ],
-                      ),
                     ),
                   ),
                 ),
