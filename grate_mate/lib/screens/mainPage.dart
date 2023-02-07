@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream:grate_mate/lib/mainPage.dart
-import 'package:grate_mate/recipe.dart';
-import 'package:grate_mate/screens/recipe_screen.dart';
-=======
-import 'package:grate_mate/models/recipe.dart';
 import '../models/globalRecipes.dart' as globalRecipes;
->>>>>>> Stashed changes:grate_mate/lib/screens/mainPage.dart
+import 'package:grate_mate/models/recipe.dart';
+import 'package:grate_mate/screens/recipe_screen.dart';
 
 class MainPage extends StatefulWidget{
   @override
@@ -93,46 +89,6 @@ class _MainPageState extends State<MainPage>{
             )
                 : Container(),
             Expanded(
-<<<<<<< Updated upstream:grate_mate/lib/mainPage.dart
-              child: ListView(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RecipeScreen(),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      child: ListTile(
-                        leading:
-                        Image.network(recipe.imageURL),
-                        title: Text(recipe.name),
-                      ),
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      leading:
-                      Image.network('https://i.imgur.com/A14QwVWb.jpg'),
-                      title: Text('Dummy Image 2'),
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      leading:
-                      Image.network('https://i.imgur.com/CUG0Aofb.jpg'),
-                      title: Text('Dummy Image 3'),
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      leading:
-                      Image.network('https://i.imgur.com/eTuCPxMb.jpg'),
-                      title: Text('Dummy Image 4'),
-=======
               child: GridView.count(
                 crossAxisCount: 2,
                 children: List.generate(globalRecipes.recipes.length, (index) {
@@ -142,11 +98,11 @@ class _MainPageState extends State<MainPage>{
                       child: Column(
                         children: <Widget>[
                           Container(
-                            width: 150,
+                            width: 100,
                             height: 100,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: NetworkImage(globalRecipes.recipes[index].imageURL),
+                                image: AssetImage('.../assets/crepes.jpg'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -154,13 +110,12 @@ class _MainPageState extends State<MainPage>{
                           SizedBox(height: 8),
                           Text(
                             globalRecipes.recipes[index].name,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 8),
                           Text(globalRecipes.recipes[index].description),
                         ],
                       ),
->>>>>>> Stashed changes:grate_mate/lib/screens/mainPage.dart
                     ),
                   );
                 }),
