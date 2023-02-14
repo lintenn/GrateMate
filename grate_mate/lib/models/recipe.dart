@@ -1,14 +1,19 @@
 class Recipe {
   String name;
   String description;
-  List<String> Steps;
+  List<String> steps;
   int difficulty;
   int time;
   String imageURL;
   //TODO: List ingredients
   //TODO: Category
 
-  Recipe(this.name, this.description, this.Steps, this.difficulty, this.time,
-      this.imageURL);
+  Recipe(
+      {required this.name,
+        required this.description,
+        required this.steps,
+        required this.difficulty,
+        required this.time,
+        required this.imageURL});
 
 }

@@ -36,6 +36,30 @@ class _MainPageState extends State<MainPage>{
     }
   }
 
+  Widget recipeCard(recipe){
+    return Card(
+
+    );
+  }
+
+  List<Color> _getDifficultyColors(int difficulty) {
+    switch (difficulty) {
+      case 1:
+        return [Colors.green, Colors.green];
+      case 2:
+        return [Colors.green, const Color(0xffC6CE00)];
+      case 3:
+        return [Colors.green, const Color(0xffC6CE00), Colors.yellow];
+      case 4:
+        return [Colors.green, const Color(0xffC6CE00), Colors.yellow, Colors.orange];
+      case 5:
+        return [Colors.green, const Color(0xffC6CE00), Colors.yellow, Colors.orange, Colors.red];
+      default:
+        return [Colors.grey, Colors.grey];
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +69,7 @@ class _MainPageState extends State<MainPage>{
         child: Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -62,7 +86,7 @@ class _MainPageState extends State<MainPage>{
                 child: TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.fromLTRB(25, 20, 0, 20),
+                    contentPadding: const EdgeInsets.fromLTRB(25, 20, 0, 10),
                     hintText: 'Search',
                     suffixIcon: IconButton(
                       icon: Icon(Icons.search),
@@ -90,7 +114,8 @@ class _MainPageState extends State<MainPage>{
                 : Container(),
             Expanded(
               child: GridView.count(
-                crossAxisCount: 2,
+                crossAxisCount: 1,
+                scrollDirection: Axis.vertical,
                 children: List.generate(globalRecipes.recipes.length, (index) {
                   return Center(
                     child: GestureDetector(
@@ -98,32 +123,64 @@ class _MainPageState extends State<MainPage>{
                             Navigator.push(
                               context,
                               MaterialPageRoute(
+                                //TODO I think that if here i put the info i can catch it later
                                 builder: (context) => RecipeScreen(),
                               ),
                             );
                           },
                       child: Card(
                         margin: const EdgeInsets.all(10.0),
+                        shape:  RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         child: Column(
-                            children: <Widget>[
-                             Container(
-                                width: 150,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(globalRecipes.recipes[index].imageURL),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 8),
-                              Text(
+                          crossAxisAlignment:CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
+                              child: Text(
                                 globalRecipes.recipes[index].name,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,),
                               ),
-                              SizedBox(height: 8),
-                              Text(globalRecipes.recipes[index].description),
-
+                            ),
+                            AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: Image.asset(globalRecipes.recipes[index].imageURL,
+                                    fit: BoxFit.cover
+                                )
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
+                              child: Text(globalRecipes.recipes[index].description),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+                              child:  FractionallySizedBox(
+                                  alignment: Alignment.centerLeft,
+                                  widthFactor: globalRecipes.recipes[index].difficulty / 5,
+                                  child: Container(
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      gradient: LinearGradient(
+                                        colors: _getDifficultyColors(globalRecipes.recipes[index].difficulty),
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.access_time),
+                                  SizedBox(width: 5),
+                                  Text("${globalRecipes.recipes[index].time} min"),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
