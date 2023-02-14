@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:grate_mate/screens/bookmarks_screen.dart';
+import 'package:grate_mate/screens/profile_screen.dart';
 import 'package:grate_mate/screens/recipe_screen.dart';
+import 'package:grate_mate/screens/shoppingList_screen.dart';
 import 'screens/mainPage.dart';
+import 'screens/recipe_screen.dart';
+import 'colors/TigersEye.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 void main() {
@@ -14,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'GrateMate - Recipes for everyone',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -25,10 +31,15 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: GrateMate.tigersEye,
+
       ),
       //home: const RecipeScreen(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/home',
+      routes: {
+        '/recipe': (context) => const RecipeScreen(),
+        '/home': (context) => const MyHomePage(title: 'GrateMate - Main Page')
+      }
     );
   }
 }
@@ -83,29 +94,34 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: GrateMate.tigersEye
+        ),
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bookmark),
+              label: 'Bookmarks',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart),
+              label: 'Shopping List',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: GrateMate.cornsilk,
+          unselectedItemColor: GrateMate.earthYellow,
+          onTap: _onItemTapped,
+        ),
       ),
       //body: _pageOptions[_selectedIndex],
       body: _buildPageContent(),
@@ -115,6 +131,12 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (_selectedIndex) {
       case 0:
         return MainPage();
+      case 1:
+        return Bookmark();
+      case 2:
+        return ShoppingList();
+      case 3:
+        return Profile();
       default:
         return const Scaffold(
             body: Text('Other page'),

@@ -129,7 +129,7 @@ class _MainPageState extends State<MainPage>{
                             );
                           },
                       child: Card(
-                        margin: const EdgeInsets.all(10.0),
+                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                         shape:  RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
