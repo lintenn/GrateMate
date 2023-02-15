@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../colors/TigersEye.dart';
-import '../models/globalRecipes.dart' as globalRecipes;
-import 'package:grate_mate/screens/recipe_screen.dart';
+import '../global_information//globalRecipes.dart' as globalRecipes;
 import 'dart:core';
+import '../global_information/colors_palette.dart';
 
 class MainPage extends StatefulWidget{
   @override
@@ -41,13 +40,7 @@ class _MainPageState extends State<MainPage>{
     return Center(
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              //TODO I think that if here i put the info i can catch it later and change to router
-              builder: (context) => RecipeScreen(),
-            ),
-          );
+          Navigator.pushNamed(context, '/recipe', arguments: recipe);
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
@@ -76,7 +69,8 @@ class _MainPageState extends State<MainPage>{
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
                 child: Text(recipe.description),
               ),
-              Padding(
+              //This code create a bar instead of a rectangles
+              /*Padding(
                 padding: const EdgeInsets.fromLTRB(8, 4, 20, 8),
                 child:  FractionallySizedBox(
                     alignment: Alignment.centerLeft,
@@ -91,6 +85,10 @@ class _MainPageState extends State<MainPage>{
                       ),
                     )
                 ),
+              ),*/
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+                child: getDfficultyBar(recipe.difficulty),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
@@ -109,7 +107,24 @@ class _MainPageState extends State<MainPage>{
     );
   }
 
-  List<Color> _getDifficultyColors(int difficulty) {
+  Widget getDfficultyBar(int difficulty){
+    return Row(
+      children: List.generate(
+        difficulty,
+            (index) => Container(
+          width: 30,
+          height: 15,
+          margin: EdgeInsets.only(right: 5),
+          decoration: BoxDecoration(
+            color: _getDifficultyColors(index+1),
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /*List<Color> _getDifficultyColors(int difficulty) {
     switch (difficulty) {
       case 1:
         return [Colors.green, Colors.green];
@@ -124,13 +139,31 @@ class _MainPageState extends State<MainPage>{
       default:
         return [Colors.grey, Colors.grey];
     }
+  }*/
+
+  Color _getDifficultyColors(int difficulty) {
+    switch (difficulty) {
+      case 1:
+        return Colors.green;
+      case 2:
+        return const Color(0xffC6CE00);
+      case 3:
+        return Colors.yellow;
+      case 4:
+        return Colors.orange;
+      case 5:
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
   }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: GrateMate.earthYellow[400],
+      //backgroundColor: GrateMate.earthYellow[400],
+      backgroundColor: GrateMate.darkMossGreen[200],
       body: Container(
         margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 20.0),
         child: Column(
@@ -216,3 +249,4 @@ class _MainPageState extends State<MainPage>{
   }
 
 }
+

@@ -37,6 +37,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   google_fonts: ^4.0.3
+  font_awesome_flutter: ^10.4.0
+  tuple: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -87,6 +89,7 @@ flutter:
     - family: RobotoBlack
       fonts:
       - asset: fonts/roboto/Roboto-Black.ttf
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

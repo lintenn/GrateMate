@@ -5,9 +5,7 @@ import 'package:grate_mate/screens/profile_screen.dart';
 import 'package:grate_mate/screens/recipe_screen.dart';
 import 'package:grate_mate/screens/shoppingList_screen.dart';
 import 'screens/mainPage.dart';
-import 'screens/recipe_screen.dart';
-import 'colors/TigersEye.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'global_information/colors_palette.dart';
 
 
 void main() {
@@ -68,7 +66,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   void _onItemTapped(int index) {
     setState(() {

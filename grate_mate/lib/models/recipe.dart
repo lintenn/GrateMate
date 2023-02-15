@@ -1,3 +1,7 @@
+import 'package:tuple/tuple.dart';
+
+import 'ingredient.dart';
+
 class Recipe {
   String name;
   String description;
@@ -5,7 +9,7 @@ class Recipe {
   int difficulty;
   int time;
   String imageURL;
-  //TODO: List ingredients
+  List<Tuple2<Ingredient, int>> ingredients;
   //TODO: Category
 
   Recipe(
@@ -14,6 +18,7 @@ class Recipe {
         required this.steps,
         required this.difficulty,
         required this.time,
-        required this.imageURL});
+        required this.imageURL,
+        required this.ingredients});
 
 }
