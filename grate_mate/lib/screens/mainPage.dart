@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../colors/TigersEye.dart';
 import '../models/globalRecipes.dart' as globalRecipes;
 import 'package:grate_mate/models/recipe.dart';
 import 'package:grate_mate/screens/recipe_screen.dart';
@@ -63,9 +65,9 @@ class _MainPageState extends State<MainPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: GrateMate.earthYellow[400],
       body: Container(
-        margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
+        margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 20.0),
         child: Column(
           children: <Widget>[
             Container(
@@ -108,11 +110,28 @@ class _MainPageState extends State<MainPage>{
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Color(0xFFFD5D5D),
-                fontWeight: FontWeight.bold,
               ),
             )
                 : Container(),
-            Expanded(
+            Row(
+              children: [
+                Column(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                      child: Text(
+                        'Last recipes added',
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontFamily: 'RobotoBold'
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Flexible(
               child: GridView.count(
                 crossAxisCount: 1,
                 scrollDirection: Axis.vertical,
@@ -123,13 +142,13 @@ class _MainPageState extends State<MainPage>{
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                //TODO I think that if here i put the info i can catch it later
+                                //TODO I think that if here i put the info i can catch it later and change to router
                                 builder: (context) => RecipeScreen(),
                               ),
                             );
                           },
                       child: Card(
-                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                         shape:  RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -156,7 +175,7 @@ class _MainPageState extends State<MainPage>{
                               child: Text(globalRecipes.recipes[index].description),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+                              padding: const EdgeInsets.fromLTRB(8, 4, 20, 8),
                               child:  FractionallySizedBox(
                                   alignment: Alignment.centerLeft,
                                   widthFactor: globalRecipes.recipes[index].difficulty / 5,
@@ -194,5 +213,5 @@ class _MainPageState extends State<MainPage>{
       ),
     );
   }
-  
+
 }

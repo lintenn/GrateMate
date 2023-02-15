@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+//Palette: https://coolors.co/606c38-283618-fefae0-dda15e-bc6c25
 class GrateMate {
 
   static const MaterialColor tigersEye = MaterialColor(
