@@ -68,24 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Explore',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Notifications',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Profile',
-      style: optionStyle,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -122,6 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
           currentIndex: _selectedIndex,
           selectedItemColor: GrateMate.cornsilk,
           unselectedItemColor: GrateMate.earthYellow,
+          showSelectedLabels: false,
+          selectedIconTheme: IconThemeData(size: 30),
           onTap: _onItemTapped,
         ),
       ),

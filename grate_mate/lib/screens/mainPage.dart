@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../colors/TigersEye.dart';
 import '../models/globalRecipes.dart' as globalRecipes;
-import 'package:grate_mate/models/recipe.dart';
 import 'package:grate_mate/screens/recipe_screen.dart';
+import 'dart:core';
 
 class MainPage extends StatefulWidget{
   @override
@@ -39,8 +38,74 @@ class _MainPageState extends State<MainPage>{
   }
 
   Widget recipeCard(recipe){
-    return Card(
-
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              //TODO I think that if here i put the info i can catch it later and change to router
+              builder: (context) => RecipeScreen(),
+            ),
+          );
+        },
+        child: Card(
+          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+          shape:  RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            crossAxisAlignment:CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
+                child: Text(
+                  recipe.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,),
+                ),
+              ),
+              AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Image.asset(recipe.imageURL,
+                      fit: BoxFit.cover
+                  )
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
+                child: Text(recipe.description),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 4, 20, 8),
+                child:  FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: recipe.difficulty / 5,
+                    child: Container(
+                      height: 10,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        gradient: LinearGradient(
+                          colors: _getDifficultyColors(recipe.difficulty),
+                        ),
+                      ),
+                    )
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+                child: Row(
+                  children: [
+                    Icon(Icons.access_time),
+                    SizedBox(width: 5),
+                    Text("${recipe.time} min"),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -91,7 +156,7 @@ class _MainPageState extends State<MainPage>{
                     contentPadding: const EdgeInsets.fromLTRB(25, 20, 0, 10),
                     hintText: 'Search',
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.search),
+                      icon: const Icon(Icons.search),
                       onPressed: _search,
                     ),
                     border: const OutlineInputBorder(
@@ -132,80 +197,16 @@ class _MainPageState extends State<MainPage>{
               ],
             ),
             Flexible(
-              child: GridView.count(
+              /*child: GridView.count(
                 crossAxisCount: 1,
                 scrollDirection: Axis.vertical,
-                children: List.generate(globalRecipes.recipes.length, (index) {
-                  return Center(
-                    child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                //TODO I think that if here i put the info i can catch it later and change to router
-                                builder: (context) => RecipeScreen(),
-                              ),
-                            );
-                          },
-                      child: Card(
-                        margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                        shape:  RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment:CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
-                              child: Text(
-                                globalRecipes.recipes[index].name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,),
-                              ),
-                            ),
-                            AspectRatio(
-                                aspectRatio: 16 / 9,
-                                child: Image.asset(globalRecipes.recipes[index].imageURL,
-                                    fit: BoxFit.cover
-                                )
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
-                              child: Text(globalRecipes.recipes[index].description),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 4, 20, 8),
-                              child:  FractionallySizedBox(
-                                  alignment: Alignment.centerLeft,
-                                  widthFactor: globalRecipes.recipes[index].difficulty / 5,
-                                  child: Container(
-                                    height: 10,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      gradient: LinearGradient(
-                                        colors: _getDifficultyColors(globalRecipes.recipes[index].difficulty),
-                                      ),
-                                    ),
-                                  )
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.access_time),
-                                  SizedBox(width: 5),
-                                  Text("${globalRecipes.recipes[index].time} min"),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
+                children: globalRecipes.recipes.map((recipe) => recipeCard(recipe)).toList(),
+                ),*/
+              child: ListView.builder(
+                itemCount: globalRecipes.recipes.length,
+                itemBuilder: (context, index) {
+                  return recipeCard(globalRecipes.recipes[index]);
+                },
               ),
             ),
           ],

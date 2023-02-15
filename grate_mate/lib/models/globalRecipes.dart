@@ -5,7 +5,7 @@ import 'package:grate_mate/models/recipe.dart';
 
 //main colors of the app: https://coolors.co/606c38-283618-fefae0-dda15e-bc6c25
 
-final List<Recipe> recipes = [
+List<Recipe> recipes = [
 Recipe(name: "Crepes",description:  "Original french dessert",
 steps: ["Prepare ingredients","Finish recipe"],
 difficulty: 1,time:  30,
