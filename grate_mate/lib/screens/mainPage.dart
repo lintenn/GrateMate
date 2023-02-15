@@ -185,10 +185,10 @@ class _MainPageState extends State<MainPage>{
                     Padding(
                       padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                       child: Text(
-                        'Last recipes added',
+                        'Last recipes',
                         style: TextStyle(
                             fontSize: 30,
-                            fontFamily: 'RobotoBold'
+                            fontFamily: 'RobotoBlack'
                         ),
                       ),
                     ),

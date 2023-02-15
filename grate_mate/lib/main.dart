@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grate_mate/screens/bookmarks_screen.dart';
+import 'package:grate_mate/screens/loading_screen.dart';
 import 'package:grate_mate/screens/profile_screen.dart';
 import 'package:grate_mate/screens/recipe_screen.dart';
 import 'package:grate_mate/screens/shoppingList_screen.dart';
@@ -37,8 +38,9 @@ class MyApp extends StatelessWidget {
 
       ),
       //home: const RecipeScreen(),
-      initialRoute: '/home',
+      initialRoute: '/',
       routes: {
+        '/': (context) => const LoadingScreen(),
         '/recipe': (context) => const RecipeScreen(),
         '/home': (context) => const MyHomePage(title: 'GrateMate - Main Page')
       }
@@ -66,8 +68,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   void _onItemTapped(int index) {
     setState(() {
