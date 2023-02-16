@@ -15,11 +15,28 @@ class RecipeScreen extends StatefulWidget {
 
 class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderStateMixin{
   TabController? _tabController;
+  late int servings;
+
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
+    servings = 1;
+  }
+
+  void _incrementServings() {
+    setState(() {
+      servings++;
+    });
+  }
+
+  void _decrementServings() {
+    setState(() {
+      if (servings > 1) {
+        servings--;
+      }
+    });
   }
 
   @override
@@ -139,51 +156,61 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
   }
 
   Widget getIngredientsTabWidget(Recipe recipe) {
-    return  ListView(
-      children: <Widget>[
 
-        // Plus and minus buttons to modify the serving size
-        Container(
-          margin: const EdgeInsets.only(top: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 10),
-                child: FloatingActionButton(
-                  heroTag: 'removeBtn',
-                  backgroundColor: GrateMate.greenGrateMate,
-                  //TODO: Define
-                  onPressed: () {},
-                  child: const Icon(Icons.remove),
+    return   Column(
+        children: <Widget>[
 
+          // Plus and minus buttons to modify the serving size
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: FloatingActionButton(
+                    heroTag: 'removeBtn',
+                    backgroundColor: GrateMate.greenGrateMate,
+                    //TODO: Define
+                    onPressed: () {
+                      _decrementServings();
+                    },
+                    child: const Icon(Icons.remove),
+
+                  ),
                 ),
-              ),
-              const Text('Serving size: 1'),
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                child: FloatingActionButton(
-                  heroTag: 'addBtn',
-                  backgroundColor: GrateMate.greenGrateMate,
-                  //TODO: Define
-                  onPressed: () {},
-                  child: const Icon(Icons.add),
+                Text('Servings: $servings',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'RobotoBlack',
+                  ),
                 ),
-              ),
-            ],
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  child: FloatingActionButton(
+                    heroTag: 'addBtn',
+                    backgroundColor: GrateMate.greenGrateMate,
+                    //TODO: Define
+                    onPressed: () {
+                      _incrementServings();
+                    },
+                    child: const Icon(Icons.add),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        ListView.builder(
-          padding: const EdgeInsets.all(12),
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: recipe.ingredients.length,
-          itemBuilder: (context, index) {
-            return getIngredientCard(recipe.ingredients[index]);
-          },
-        ),
-      ],
-    );;
+          ListView.builder(
+            padding: const EdgeInsets.all(12),
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: recipe.ingredients.length,
+            itemBuilder: (context, index) {
+              return getIngredientCard(recipe.ingredients[index]);
+            },
+          ),
+        ],
+      );
   }
 
   Widget getIngredientCard(Tuple2<Ingredient, int> ingredient) {
@@ -199,7 +226,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                 size: 30,
               ),
               const SizedBox(width: 8),
-              Text('${ingredient.item1.name} ${ingredient.item2} ${ingredient.item1.unit}',
+              Text('${ingredient.item1.name} ${ingredient.item2 * servings} ${ingredient.item1.unit}',
                 style: const TextStyle(
                   fontSize: 20,
                 ),
@@ -220,24 +247,42 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
           shrinkWrap: true,
           itemCount: recipe.steps.length,
           itemBuilder: (context, index) {
-            return getRecipeStepCard(recipe.steps[index]);
+            return getRecipeStepCard(recipe.steps[index], index);
           },
         ),
       ],
     );
   }
 
-  Widget getRecipeStepCard(String step) {
+  Widget getRecipeStepCard(String step, int index) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Text(step,
-          style: const TextStyle(
-            fontSize: 20,
-          ),
+        child: Row(
+          children: [
+            // We display the step number very fancy
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              child: CircleAvatar(
+                backgroundColor: GrateMate.greenGrateMate,
+                child: Text('${index + 1}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+
+            Text(step,
+              style: const TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ],
         ),
       ),
     );

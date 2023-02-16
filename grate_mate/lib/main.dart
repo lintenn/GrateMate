@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 2:
         return ShoppingList();
       case 3:
-        return ProfileScreen(user: Users.users[0]);
+        return ProfileScreen(user: Users.users[1]);
       default:
         return const Scaffold(
             body: Text('Other page'),
