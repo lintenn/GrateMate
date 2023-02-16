@@ -151,6 +151,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
               Container(
                 margin: const EdgeInsets.only(right: 10),
                 child: FloatingActionButton(
+                  heroTag: 'removeBtn',
                   backgroundColor: GrateMate.earthYellow,
                   //TODO: Define
                   onPressed: () {},
@@ -162,6 +163,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
               Container(
                 margin: const EdgeInsets.only(left: 10),
                 child: FloatingActionButton(
+                  heroTag: 'addBtn',
                   backgroundColor: GrateMate.earthYellow,
                   //TODO: Define
                   onPressed: () {},
