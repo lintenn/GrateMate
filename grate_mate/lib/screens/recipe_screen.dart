@@ -71,7 +71,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                     child: ElevatedButton.icon(
                       icon: const Icon(Icons.play_arrow),
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(GrateMate.tigersEye),
+                        backgroundColor: MaterialStateProperty.all<Color>(GrateMate.greenGrateMate),
                       ),
                       label: const Text('Start cooking',
                         style:
@@ -152,7 +152,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                 margin: const EdgeInsets.only(right: 10),
                 child: FloatingActionButton(
                   heroTag: 'removeBtn',
-                  backgroundColor: GrateMate.earthYellow,
+                  backgroundColor: GrateMate.greenGrateMate,
                   //TODO: Define
                   onPressed: () {},
                   child: const Icon(Icons.remove),
@@ -164,7 +164,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                 margin: const EdgeInsets.only(left: 10),
                 child: FloatingActionButton(
                   heroTag: 'addBtn',
-                  backgroundColor: GrateMate.earthYellow,
+                  backgroundColor: GrateMate.greenGrateMate,
                   //TODO: Define
                   onPressed: () {},
                   child: const Icon(Icons.add),

@@ -3,7 +3,56 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 //Palette: https://coolors.co/606c38-283618-fefae0-dda15e-bc6c25
+//Second palette: https://coolors.co/palette/353535-3c6e71-ffffff-d9d9d9-284b63
 class GrateMate {
+
+  static const MaterialColor greenGrateMate = MaterialColor(
+    0xFF3C6E71,
+    <int, Color>{
+      50:  Color(0x0D3C6E71),
+      100: Color(0x1A3C6E71),
+      200: Color(0x333C6E71),
+      300: Color(0x4D3C6E71),
+      400: Color(0x663C6E71),
+      500: Color(0x803C6E71),
+      600: Color(0x993C6E71),
+      700: Color(0xB33C6E71),
+      800: Color(0xCC3C6E71),
+      900: Color(0xE63C6E71),
+    },
+  );
+
+  static const MaterialColor grayGrateMate = MaterialColor(
+    0xFFD9D9D9,
+    <int, Color>{
+      50:  Color(0x0DD9D9D9),
+      100: Color(0x1AD9D9D9),
+      200: Color(0x33D9D9D9),
+      300: Color(0x4DD9D9D9),
+      400: Color(0x66D9D9D9),
+      500: Color(0x80D9D9D9),
+      600: Color(0x99D9D9D9),
+      700: Color(0xB3D9D9D9),
+      800: Color(0xCCD9D9D9),
+      900: Color(0xE6D9D9D9),
+    },
+  );
+
+  static const MaterialColor darkGrateMate = MaterialColor(
+    0xFF353535,
+    <int, Color>{
+      50:  Color(0x0D353535),
+      100: Color(0x1A353535),
+      200: Color(0x33353535),
+      300: Color(0x4D353535),
+      400: Color(0x66353535),
+      500: Color(0x80353535),
+      600: Color(0x99353535),
+      700: Color(0xB3353535),
+      800: Color(0xCC353535),
+      900: Color(0xE6353535),
+    },
+  );
 
   static const MaterialColor tigersEye = MaterialColor(
     0xFFbc6c25,

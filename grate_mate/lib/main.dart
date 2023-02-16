@@ -6,6 +6,7 @@ import 'package:grate_mate/screens/recipe_screen.dart';
 import 'package:grate_mate/screens/shoppingList_screen.dart';
 import 'screens/mainPage.dart';
 import 'global_information/colors_palette.dart';
+import 'global_information/global_users.dart' as Users;
 
 
 void main() {
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: GrateMate.tigersEye,
+        primarySwatch: GrateMate.greenGrateMate,
         fontFamily: 'Roboto',
 
 
@@ -78,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: GrateMate.tigersEye
+          canvasColor: GrateMate.greenGrateMate
         ),
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
@@ -100,8 +101,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: GrateMate.cornsilk,
-          unselectedItemColor: GrateMate.earthYellow,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: GrateMate.grayGrateMate,
           showSelectedLabels: false,
           selectedIconTheme: IconThemeData(size: 30),
           onTap: _onItemTapped,
@@ -120,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 2:
         return ShoppingList();
       case 3:
-        return Profile();
+        return ProfileScreen(user: Users.users[0]);
       default:
         return const Scaffold(
             body: Text('Other page'),
