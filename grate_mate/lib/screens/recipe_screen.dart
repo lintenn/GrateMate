@@ -43,6 +43,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     final recipe = ModalRoute.of(context)!.settings.arguments as Recipe;
     return Scaffold(
+      //backgroundColor: GrateMate.grayGrateMate,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -89,6 +90,11 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                       icon: const Icon(Icons.play_arrow),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(GrateMate.yellowNorthFace),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                        ),
                       ),
                       label: const Text('Start cooking',
                         style:
@@ -128,7 +134,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 0),
             child: TabBar(
               controller: _tabController,
               labelColor: Colors.black,
@@ -158,59 +164,96 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
 
   Widget getIngredientsTabWidget(Recipe recipe) {
 
-    return   Column(
-      children: <Widget>[
+    return   SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
 
-        // Plus and minus buttons to modify the serving size
-        Container(
-          margin: const EdgeInsets.only(top: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 10),
-                child: FloatingActionButton(
-                  heroTag: 'removeBtn',
-                  backgroundColor: GrateMate.yellowNorthFace,
-                  //TODO: Define
-                  onPressed: () {
-                    _decrementServings();
-                  },
-                  child: const Icon(Icons.remove),
+          // Plus and minus buttons to modify the serving size
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: FloatingActionButton(
+                    heroTag: 'removeBtn',
+                    backgroundColor: GrateMate.yellowNorthFace,
+                    //TODO: Define
+                    onPressed: () {
+                      _decrementServings();
+                    },
+                    child: const Icon(Icons.remove),
 
+                  ),
                 ),
-              ),
-              Text('Servings: $servings',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Montserrat',
+                Text('Servings: $servings',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Montserrat',
+                  ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                child: FloatingActionButton(
-                  heroTag: 'addBtn',
-                  backgroundColor: GrateMate.yellowNorthFace,
-                  //TODO: Define
-                  onPressed: () {
-                    _incrementServings();
-                  },
-                  child: const Icon(Icons.add),
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  child: FloatingActionButton(
+                    heroTag: 'addBtn',
+                    backgroundColor: GrateMate.yellowNorthFace,
+                    //TODO: Define
+                    onPressed: () {
+                      _incrementServings();
+                    },
+                    child: const Icon(Icons.add),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        ListView.builder(
-          padding: const EdgeInsets.all(12),
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: recipe.ingredients.length,
-          itemBuilder: (context, index) {
-            return getIngredientCard(recipe.ingredients[index]);
-          },
-        ),
-      ],
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(12),
+            shrinkWrap: true,
+            itemCount: recipe.ingredients.length,
+            itemBuilder: (context, index) {
+              return getIngredientCard(recipe.ingredients[index]);
+            },
+          ),
+          const SizedBox(height: 50,),
+          Center(
+            child: ElevatedButton.icon(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40.0),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                //TODO: implement method
+              },
+              icon: const Padding(
+                padding: EdgeInsets.fromLTRB(8,8,0,8),
+                child: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                  size: 30.0,
+                ),
+              ),
+              label: const Padding(
+                padding: EdgeInsets.fromLTRB(0,8,8,8),
+                child: Text(
+                  'Add to shopping list',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 40,),
+        ],
+      ),
     );
   }
 
@@ -243,14 +286,16 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
     return ListView(
       children: <Widget>[
         ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.all(12),
-          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: recipe.steps.length,
           itemBuilder: (context, index) {
             return getRecipeStepCard(recipe.steps[index], index);
           },
         ),
+
+
       ],
     );
   }
@@ -268,7 +313,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
             Container(
               margin: const EdgeInsets.only(right: 10),
               child: CircleAvatar(
-                backgroundColor: GrateMate.deepBlueGrateMate,
+                backgroundColor: GrateMate.yellowNorthFace,
                 child: Text('${index + 1}',
                   style: const TextStyle(
                     color: Colors.white,

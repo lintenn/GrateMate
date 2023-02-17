@@ -208,6 +208,7 @@ class _MainPageState extends State<MainPage>{
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Color(0xFFFD5D5D),
+                fontFamily: 'MontserratMedium'
               ),
             )
                 : Container(),
