@@ -89,7 +89,21 @@ flutter:
     - family: RobotoBlack
       fonts:
       - asset: fonts/roboto/Roboto-Black.ttf
-
+    - family: MontserratLight
+      fonts:
+        - asset: fonts/Montserrat/Montserrat-Light.ttf
+    - family: Montserrat
+      fonts:
+          - asset: fonts/Montserrat/Montserrat-Regular.ttf
+    - family: MontserratBold
+      fonts:
+          - asset: fonts/Montserrat/Montserrat-Bold.ttf
+    - family: MontserratExtraBold
+      fonts:
+          - asset: fonts/Montserrat/Montserrat-ExtraBold.ttf
+    - family: MontserratMedium
+      fonts:
+          - asset: fonts/Montserrat/Montserrat-Medium.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

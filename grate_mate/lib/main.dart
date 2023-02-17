@@ -31,8 +31,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: GrateMate.greenGrateMate,
-        fontFamily: 'Roboto',
+        primarySwatch: GrateMate.deepBlueGrateMate,
+        fontFamily: 'Montserrat',
+
 
 
       ),
@@ -79,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: GrateMate.greenGrateMate
+          canvasColor: GrateMate.deepBlueGrateMate
         ),
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[

@@ -4,37 +4,38 @@ import 'package:flutter/material.dart';
 
 //Palette: https://coolors.co/606c38-283618-fefae0-dda15e-bc6c25
 //Second palette: https://coolors.co/palette/353535-3c6e71-ffffff-d9d9d9-284b63
+//Third palettte: https://coolors.co/palette/000000-14213d-fca311-e5e5e5-ffffff
 class GrateMate {
 
-  static const MaterialColor greenGrateMate = MaterialColor(
-    0xFF3C6E71,
+  static const MaterialColor deepBlueGrateMate = MaterialColor(
+    0xFF14213D,
     <int, Color>{
-      50:  Color(0x0D3C6E71),
-      100: Color(0x1A3C6E71),
-      200: Color(0x333C6E71),
-      300: Color(0x4D3C6E71),
-      400: Color(0x663C6E71),
-      500: Color(0x803C6E71),
-      600: Color(0x993C6E71),
-      700: Color(0xB33C6E71),
-      800: Color(0xCC3C6E71),
-      900: Color(0xE63C6E71),
+      50:  Color(0x0D14213D),
+      100: Color(0x1A14213D),
+      200: Color(0x3314213D),
+      300: Color(0x4D14213D),
+      400: Color(0x6614213D),
+      500: Color(0x8014213D),
+      600: Color(0x9914213D),
+      700: Color(0xB314213D),
+      800: Color(0xCC14213D),
+      900: Color(0xE614213D),
     },
   );
 
   static const MaterialColor grayGrateMate = MaterialColor(
-    0xFFD9D9D9,
+    0xFFE5E5E5,
     <int, Color>{
-      50:  Color(0x0DD9D9D9),
-      100: Color(0x1AD9D9D9),
-      200: Color(0x33D9D9D9),
-      300: Color(0x4DD9D9D9),
-      400: Color(0x66D9D9D9),
-      500: Color(0x80D9D9D9),
-      600: Color(0x99D9D9D9),
-      700: Color(0xB3D9D9D9),
-      800: Color(0xCCD9D9D9),
-      900: Color(0xE6D9D9D9),
+      50:  Color(0x0DE5E5E5),
+      100: Color(0x1AE5E5E5),
+      200: Color(0x33E5E5E5),
+      300: Color(0x4DE5E5E5),
+      400: Color(0x66E5E5E5),
+      500: Color(0x80E5E5E5),
+      600: Color(0x99E5E5E5),
+      700: Color(0xB3E5E5E5),
+      800: Color(0xCCE5E5E5),
+      900: Color(0xE6E5E5E5),
     },
   );
 
@@ -51,6 +52,22 @@ class GrateMate {
       700: Color(0xB3353535),
       800: Color(0xCC353535),
       900: Color(0xE6353535),
+    },
+  );
+
+  static const MaterialColor yellowNorthFace = MaterialColor(
+    0xFFFCA311,
+    <int, Color>{
+      50:  Color(0x0DFCA311),
+      100: Color(0x1AFCA311),
+      200: Color(0x33FCA311),
+      300: Color(0x4DFCA311),
+      400: Color(0x66FCA311),
+      500: Color(0x80FCA311),
+      600: Color(0x99FCA311),
+      700: Color(0xB3FCA311),
+      800: Color(0xCCFCA311),
+      900: Color(0xE6FCA311),
     },
   );
 

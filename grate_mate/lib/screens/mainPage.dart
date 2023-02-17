@@ -163,7 +163,7 @@ class _MainPageState extends State<MainPage>{
   Widget build(BuildContext context) {
     return Scaffold(
       //backgroundColor: GrateMate.earthYellow[400],
-      backgroundColor: GrateMate.darkMossGreen[200],
+      backgroundColor: GrateMate.grayGrateMate,
       body: Container(
         margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 20.0),
         child: Column(
@@ -221,7 +221,8 @@ class _MainPageState extends State<MainPage>{
                         'Last recipes',
                         style: TextStyle(
                             fontSize: 30,
-                            fontFamily: 'RobotoBlack'
+                            fontFamily: 'MontserratExtraBold',
+                            //color: GrateMate.darkGrateMate
                         ),
                       ),
                     ),

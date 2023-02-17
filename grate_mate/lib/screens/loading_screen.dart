@@ -25,7 +25,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: GrateMate.greenGrateMate,
+      backgroundColor: GrateMate.deepBlueGrateMate,
       body: Center(
         child: Icon(
           Icons.restaurant_menu,
