@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grate_mate/screens/bookmarks_screen.dart';
 import 'package:grate_mate/screens/loading_screen.dart';
+import 'package:grate_mate/screens/login_screen.dart';
 import 'package:grate_mate/screens/profile_screen.dart';
 import 'package:grate_mate/screens/recipe_screen.dart';
 import 'package:grate_mate/screens/shoppingList_screen.dart';
@@ -122,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 2:
         return ShoppingList();
       case 3:
-        return ProfileScreen(user: Users.users[1]);
+        return Users.isLogged? ProfileScreen(user: Users.users[1]) : LoginPage();
       default:
         return const Scaffold(
             body: Text('Other page'),

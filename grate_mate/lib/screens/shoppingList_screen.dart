@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tuple/tuple.dart';
 import 'package:grate_mate/global_information/global_ingredients.dart' as globalIngredients;
 import '../global_information/colors_palette.dart';
@@ -18,54 +19,62 @@ class _ShoppingListState extends State<ShoppingList> {
 
   final List<Tuple2<Ingredient,int>> shoppingList = [Tuple2<Ingredient,int>(globalIngredients.bacon, 2),
     Tuple2<Ingredient,int>(globalIngredients.cheese, 30),
-    Tuple2<Ingredient,int>(globalIngredients.bacon, 2)];
+    Tuple2<Ingredient,int>(globalIngredients.carrot, 30)];
 
+
+  List<bool> isExpanded = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GrateMate.grayGrateMate,
-      body: SingleChildScrollView(
-        child: Expanded(
-          child: Column(
-            children: [
-              const SizedBox(height: 50,),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                child: Text(
-                  'Shopping List',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: 'MontserratExtraBold',
-                    //color: GrateMate.darkGrateMate
+      body: Container(
+        margin: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 50,),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: Row(
+                children: [
+                  Column(
+                    children: const [
+                      Text(
+                        'Shopping List',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontFamily: 'MontserratExtraBold',
+                          //color: GrateMate.darkGrateMate
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                ],
               ),
-              ListView(
-                /*itemCount: shoppingList.length,
-                itemBuilder: (context, index){*/
-                  children: buildingredientList(shoppingList),
-              )
-            ],
-          ),
+            ),
+            Flexible(
+              child: ListView.builder(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                  itemCount: shoppingList.length,
+                  itemBuilder: (context, index) {
+                    return buildIngredientCard(
+                        shoppingList[index], index,
+                    );
+                  }
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 
-  List<Widget> buildingredientList(List<Tuple2<Ingredient, int>> shoppingList) {
-    return shoppingList.map((ingredient) {
-       return buildIngredientCard(ingredient);
-    }).toList();
-  }
-
-  Widget buildIngredientCard(Tuple2<Ingredient, int> ingredient) {
-    bool isExpanded = false;
-
+  Widget buildIngredientCard(Tuple2<Ingredient, int> ingredient, int index) {
+    isExpanded.add(false);
     return Card(
       child: InkWell(
         onTap: () {
           setState(() {
-            isExpanded = !isExpanded;
+            isExpanded[index] = !isExpanded[index];
           });
         },
         child: Column(
@@ -75,17 +84,25 @@ class _ShoppingListState extends State<ShoppingList> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    ingredient.item1.name,
-                    style: const TextStyle(
-                      fontSize: 18.0,
-                    ),
+                  child: Row(
+                    children: [
+                      FaIcon(ingredient.item1.icon.icon,
+                        size: 30,
+                      ),
+                      const SizedBox(width: 10,),
+                      Text(
+                        ingredient.item1.name,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    ingredient.item2 as String,
+                    '${ingredient.item2} ${ingredient.item1.unit}',
                     style: const TextStyle(
                       fontSize: 18.0,
                     ),
@@ -93,11 +110,17 @@ class _ShoppingListState extends State<ShoppingList> {
                 ),
               ],
             ),
-            isExpanded?
+            isExpanded[index]?
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  print("delete ${index}");
+                  setState(() {
+                    shoppingList.remove(ingredient);
+                    isExpanded = [];
+                  });
+                },
                 child: Text('Remove'),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.red),

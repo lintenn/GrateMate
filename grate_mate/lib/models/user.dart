@@ -1,3 +1,7 @@
+import 'package:tuple/tuple.dart';
+
+import 'ingredient.dart';
+
 class User {
   int id;
   String firstName;
@@ -8,6 +12,7 @@ class User {
   String profilePhotoUrl;
   String phoneNumber;
   DateTime birthDate;
+  List<Tuple2<Ingredient,int>> shoppingList;
 
   User({
     required this.id,
@@ -19,5 +24,8 @@ class User {
     this.profilePhotoUrl = '',
     this.phoneNumber = '',
     required this.birthDate,
+    required this.shoppingList,
   });
+
+
 }

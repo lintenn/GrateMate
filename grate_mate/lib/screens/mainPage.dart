@@ -30,7 +30,6 @@ class _MainPageState extends State<MainPage>{
         });
       });
     } else {
-      // Almacena el valor de la búsqueda en una variable
       String searchValue = _searchController.text;
       print(searchValue);
     }
@@ -165,7 +164,7 @@ class _MainPageState extends State<MainPage>{
       //backgroundColor: GrateMate.earthYellow[400],
       backgroundColor: GrateMate.grayGrateMate,
       body: Container(
-        margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 20.0),
+        margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
         child: Column(
           children: <Widget>[
             Container(
@@ -238,6 +237,7 @@ class _MainPageState extends State<MainPage>{
                 children: globalRecipes.recipes.map((recipe) => recipeCard(recipe)).toList(),
                 ),*/
               child: ListView.builder(
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                 itemCount: globalRecipes.recipes.length,
                 itemBuilder: (context, index) {
                   return recipeCard(globalRecipes.recipes[index]);
