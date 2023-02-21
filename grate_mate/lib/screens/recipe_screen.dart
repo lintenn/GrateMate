@@ -181,7 +181,6 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                   child: FloatingActionButton(
                     heroTag: 'removeBtn',
                     backgroundColor: GrateMate.yellowNorthFace,
-                    //TODO: Define
                     onPressed: () {
                       _decrementServings();
                     },
@@ -200,7 +199,6 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                   child: FloatingActionButton(
                     heroTag: 'addBtn',
                     backgroundColor: GrateMate.yellowNorthFace,
-                    //TODO: Define
                     onPressed: () {
                       _incrementServings();
                     },
@@ -231,13 +229,14 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                 ),
               ),
               onPressed: () {
+                //TODO: change adding if there are more servings
                 if(!Users.isLogged){
                   Navigator.pushReplacementNamed(context, '/home/login');
                 }else{
                   recipe.ingredients.forEach((ingredient) {
                     if(Users.userLogged.shoppingList.contains(ingredient)){
                       int index = Users.userLogged.shoppingList.indexOf(ingredient);
-                      Users.userLogged.shoppingList[index] = Tuple2<Ingredient,int>(Users.userLogged.shoppingList[index].item1,Users.userLogged.shoppingList[index].item2+ingredient.item2);
+                      Users.userLogged.shoppingList[index] = Tuple2<Ingredient,int>(Users.userLogged.shoppingList[index].item1,Users.userLogged.shoppingList[index].item2+ingredient.item2*servings);
                     }else{
                       Users.userLogged.shoppingList.add(ingredient);
                     }
