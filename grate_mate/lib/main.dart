@@ -123,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 2:
         return ShoppingList();
       case 3:
-        return Users.isLogged? ProfileScreen(user: Users.users[1]) : LoginPage();
+        return Users.isLogged? ProfileScreen(user: Users.userLogged) : LoginPage();
       default:
         return const Scaffold(
             body: Text('Other page'),

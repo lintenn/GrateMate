@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../global_information//globalRecipes.dart' as globalRecipes;
 import 'dart:core';
 import '../global_information/colors_palette.dart';
+import '../global_information/global_users.dart' as Users;
+
 
 class MainPage extends StatefulWidget{
   @override
@@ -160,6 +162,7 @@ class _MainPageState extends State<MainPage>{
 
   @override
   Widget build(BuildContext context) {
+    String userName = Users.isLogged? Users.userLogged.username : '';
     return Scaffold(
       //backgroundColor: GrateMate.earthYellow[400],
       backgroundColor: GrateMate.grayGrateMate,
@@ -167,6 +170,25 @@ class _MainPageState extends State<MainPage>{
         margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
         child: Column(
           children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        'Welcome $userName',
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontFamily: 'MontserratExtraBold',
+                          //color: GrateMate.darkGrateMate
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             Container(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Container(
@@ -237,7 +259,7 @@ class _MainPageState extends State<MainPage>{
                 children: globalRecipes.recipes.map((recipe) => recipeCard(recipe)).toList(),
                 ),*/
               child: ListView.builder(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 itemCount: globalRecipes.recipes.length,
                 itemBuilder: (context, index) {
                   return recipeCard(globalRecipes.recipes[index]);

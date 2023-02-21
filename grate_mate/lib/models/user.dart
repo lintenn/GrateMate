@@ -16,16 +16,15 @@ class User {
 
   User({
     required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.username,
-    required this.email,
-    required this.password,
+    this.firstName = '',
+    this.lastName = '',
+    this.username = '',
+    this.email = '',
+    this.password = '',
     this.profilePhotoUrl = '',
     this.phoneNumber = '',
-    required this.birthDate,
-    required this.shoppingList,
-  });
+    DateTime? dateOfBirth,
+  }) :shoppingList = [], birthDate = dateOfBirth ?? DateTime(0);
 
 
 }
