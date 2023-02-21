@@ -123,6 +123,9 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(GrateMate.yellowNorthFace),
+                        ),
                         onPressed: () {
                           setState(() {
                             if (_formKey.currentState!.validate()) {
@@ -140,7 +143,10 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           });
                         },
-                        child: const Text('Log in'),
+                        child: const Text('Log in',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),),
                       ),
                     ),
                   ],

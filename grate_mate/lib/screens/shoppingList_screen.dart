@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tuple/tuple.dart';
 import 'package:grate_mate/global_information/global_ingredients.dart' as globalIngredients;
+import 'package:grate_mate/global_information/global_users.dart' as Users;
+
 import '../global_information/colors_palette.dart';
 import '../models/ingredient.dart';
 
@@ -51,17 +53,38 @@ class _ShoppingListState extends State<ShoppingList> {
                 ],
               ),
             ),
+            Users.isLogged?
             Flexible(
               child: ListView.builder(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                  itemCount: shoppingList.length,
+                  itemCount: Users.userLogged.shoppingList.length,
                   itemBuilder: (context, index) {
                     return buildIngredientCard(
-                        shoppingList[index], index,
+                      Users.userLogged.shoppingList[index], index,
                     );
                   }
               ),
             )
+                :
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: Row(
+                children: [
+                  Column(
+                    children: const [
+                      Text(
+                        'Log in to have a shopping list',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Montserrat',
+                          //color: GrateMate.darkGrateMate
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -117,7 +140,7 @@ class _ShoppingListState extends State<ShoppingList> {
                 onPressed: () {
                   print("delete ${index}");
                   setState(() {
-                    shoppingList.remove(ingredient);
+                    Users.userLogged.shoppingList.remove(ingredient);
                     isExpanded = [];
                   });
                 },

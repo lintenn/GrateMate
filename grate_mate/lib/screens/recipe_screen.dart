@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grate_mate/global_information/colors_palette.dart';
 import 'package:grate_mate/models/ingredient.dart';
 import 'package:tuple/tuple.dart';
+import '../global_information/global_users.dart' as Users;
+
 
 import '../models/recipe.dart';
 
@@ -41,7 +43,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final recipe = ModalRoute.of(context)!.settings.arguments as Recipe;
+    Recipe recipe = ModalRoute.of(context)!.settings.arguments as Recipe;
     return Scaffold(
       //backgroundColor: GrateMate.grayGrateMate,
       appBar: AppBar(
@@ -221,7 +223,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
           Center(
             child: ElevatedButton.icon(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
+                backgroundColor: MaterialStateProperty.all<Color>(GrateMate.yellowNorthFace),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40.0),
@@ -229,7 +231,18 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                 ),
               ),
               onPressed: () {
-                //TODO: implement method
+                if(!Users.isLogged){
+                  Navigator.pushReplacementNamed(context, '/home/login');
+                }else{
+                  recipe.ingredients.forEach((ingredient) {
+                    if(Users.userLogged.shoppingList.contains(ingredient)){
+                      int index = Users.userLogged.shoppingList.indexOf(ingredient);
+                      Users.userLogged.shoppingList[index] = Tuple2<Ingredient,int>(Users.userLogged.shoppingList[index].item1,Users.userLogged.shoppingList[index].item2+ingredient.item2);
+                    }else{
+                      Users.userLogged.shoppingList.add(ingredient);
+                    }
+                  });
+                }
               },
               icon: const Padding(
                 padding: EdgeInsets.fromLTRB(8,8,0,8),

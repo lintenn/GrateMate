@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart';
+import '../global_information/global_users.dart' as Users;
 
 
 class ProfileScreen extends StatelessWidget {
@@ -44,7 +45,8 @@ class ProfileScreen extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  //TODO: make logout del user
+                  Users.isLogged = false;
+                  Navigator.pushReplacementNamed(context, '/home/login');
                 },
                 child: Text('Logout'),
                 style: ButtonStyle(

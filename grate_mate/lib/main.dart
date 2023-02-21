@@ -43,14 +43,17 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoadingScreen(),
         '/recipe': (context) => const RecipeScreen(),
-        '/home': (context) => const MyHomePage(title: 'GrateMate - Main Page')
+        '/home': (context) => const MyHomePage(title: 'GrateMate - Main Page',indexBottom: 0,),
+        '/home/bookmarks': (context) => const MyHomePage(title: 'GrateMate - Main Page',indexBottom: 1,),
+        '/home/shoppingsist': (context) => const MyHomePage(title: 'GrateMate - Main Page',indexBottom: 2,),
+        '/home/login': (context) => const MyHomePage(title: 'GrateMate - Main Page',indexBottom: 3,),
       }
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, this.indexBottom = 0});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -62,13 +65,16 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final int indexBottom;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState(indexBottom);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
+  int _selectedIndex;
+  _MyHomePageState(this._selectedIndex);
+
 
   void _onItemTapped(int index) {
     setState(() {
