@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grate_mate/global_information/colors_palette.dart';
 import 'package:grate_mate/models/ingredient.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:tuple/tuple.dart';
 import '../global_information/global_users.dart' as Users;
+import 'package:material_dialogs/material_dialogs.dart';
 
 
 import '../models/recipe.dart';
@@ -18,6 +21,7 @@ class RecipeScreen extends StatefulWidget {
 class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderStateMixin{
   TabController? _tabController;
   late int servings;
+  bool _showAdvice = false;
 
 
   @override
@@ -43,6 +47,25 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        setState(() {
+          _showAdvice=false;
+        });
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("My title"),
+      content: Text("This is my message."),
+      actions: [
+        okButton,
+      ],
+    );
+
     Recipe recipe = ModalRoute.of(context)!.settings.arguments as Recipe;
     return Scaffold(
       //backgroundColor: GrateMate.grayGrateMate,
@@ -159,8 +182,10 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
               ],
             ),
           ),
+
         ],
       ),
+
     );
   }
 
@@ -229,19 +254,42 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                 ),
               ),
               onPressed: () {
-                //TODO: change adding if there are more servings
                 if(!Users.isLogged){
                   Navigator.pushReplacementNamed(context, '/home/login');
                 }else{
                   recipe.ingredients.forEach((ingredient) {
-                    if(Users.userLogged.shoppingList.contains(ingredient)){
-                      int index = Users.userLogged.shoppingList.indexOf(ingredient);
-                      Users.userLogged.shoppingList[index] = Tuple2<Ingredient,int>(Users.userLogged.shoppingList[index].item1,Users.userLogged.shoppingList[index].item2+ingredient.item2*servings);
+                    //In the recipe we have the ingredients (ist a tuple(Ingredient,quantity)) and also we have the class Ingredient
+                    //With this code we check if in the shopping list we already have the Ingredient, without care about the quantity.
+                    //If we have the ingredient => we return that ingredient (to be able in the next step to calculate the index)
+                    //If not => We return the tuple(Ingredient, quantity: 0).
+                    Tuple2<Ingredient,int> isContained = Users.userLogged.shoppingList.firstWhere((e) => e.item1 == ingredient.item1, orElse: () => Tuple2(ingredient.item1,0));
+                    if(isContained.item2 != 0){
+                      int index = Users.userLogged.shoppingList.indexOf(isContained);
+                      Users.userLogged.shoppingList[index] = Tuple2(Users.userLogged.shoppingList[index].item1,Users.userLogged.shoppingList[index].item2+ingredient.item2*servings);
                     }else{
-                      Users.userLogged.shoppingList.add(ingredient);
+                      Users.userLogged.shoppingList.add(Tuple2(ingredient.item1, ingredient.item2*servings));
                     }
                   });
                 }
+                Dialogs.bottomMaterialDialog(
+                    msg: 'Ingredients added to shopping list.',
+                    title: 'Succsess',
+                    context: context,
+                    actions: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                        child: IconsOutlineButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          text: 'Accept',
+                          iconData: Icons.check_circle_outline,
+                          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          iconColor: Colors.white,
+                          color: Color(0xff6cbf6c),
+                        ),
+                      ),
+                    ]);
               },
               icon: const Padding(
                 padding: EdgeInsets.fromLTRB(8,8,0,8),
@@ -266,6 +314,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
           const SizedBox(height: 40,),
         ],
       ),
+
     );
   }
 

@@ -54,17 +54,40 @@ class _ShoppingListState extends State<ShoppingList> {
               ),
             ),
             Users.isLogged?
-            Flexible(
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                  itemCount: Users.userLogged.shoppingList.length,
-                  itemBuilder: (context, index) {
-                    return buildIngredientCard(
-                      Users.userLogged.shoppingList[index], index,
-                    );
-                  }
-              ),
-            )
+                Users.userLogged.shoppingList.isEmpty?
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: Column(
+                          children: const [
+                            Text(
+                              'Your shopping list is empty. Go to a recipe to add some ingredients',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'Montserrat',
+                                //color: GrateMate.darkGrateMate
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              :
+              Flexible(
+                child: ListView.builder(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                    itemCount: Users.userLogged.shoppingList.length,
+                    itemBuilder: (context, index) {
+                      return buildIngredientCard(
+                        Users.userLogged.shoppingList[index], index,
+                      );
+                    }
+                ),
+              )
                 :
             Padding(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
