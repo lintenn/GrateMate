@@ -68,7 +68,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
 
     Recipe recipe = ModalRoute.of(context)!.settings.arguments as Recipe;
     return Scaffold(
-      //backgroundColor: GrateMate.grayGrateMate,
+      backgroundColor: GrateMate.grayGrateMate,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -160,7 +160,20 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
           ),
           Container(
             margin: const EdgeInsets.only(top: 0),
+            decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 6,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+
+            ),
             child: TabBar(
+
               controller: _tabController,
               labelColor: Colors.black,
               tabs: const <Widget>[ // The tab texts should be in black
@@ -273,7 +286,7 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                 }
                 Dialogs.bottomMaterialDialog(
                     msg: 'Ingredients added to shopping list.',
-                    title: 'Succsess',
+                    title: 'Success',
                     context: context,
                     actions: [
                       Padding(

@@ -3,6 +3,7 @@ import '../global_information//globalRecipes.dart' as globalRecipes;
 import 'dart:core';
 import '../global_information/colors_palette.dart';
 import '../global_information/global_users.dart' as Users;
+import '../models/recipe.dart';
 
 
 class MainPage extends StatefulWidget{
@@ -14,6 +15,8 @@ class _MainPageState extends State<MainPage>{
 
   final _searchController = TextEditingController();
   bool _showError = false;
+  List <Recipe> recipes = globalRecipes.recipes;
+  List <Recipe> recipesFiltered = globalRecipes.recipes;
 
   @override
   void dispose() {
@@ -34,6 +37,9 @@ class _MainPageState extends State<MainPage>{
     } else {
       String searchValue = _searchController.text;
       print(searchValue);
+      setState(() {
+        recipesFiltered = recipes.where((recipe) => recipe.name.toLowerCase().contains(searchValue.toLowerCase())).toList();
+      });
     }
   }
 
@@ -258,13 +264,37 @@ class _MainPageState extends State<MainPage>{
                 scrollDirection: Axis.vertical,
                 children: globalRecipes.recipes.map((recipe) => recipeCard(recipe)).toList(),
                 ),*/
-              child: ListView.builder(
+              child:
+                !recipesFiltered.isEmpty?
+               ListView.builder(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                itemCount: globalRecipes.recipes.length,
+                itemCount: recipesFiltered.length,
                 itemBuilder: (context, index) {
-                  return recipeCard(globalRecipes.recipes[index]);
+                  return recipeCard(recipesFiltered[index]);
                 },
-              ),
+              )
+              :
+                Row(
+                  children: [
+                    Flexible(
+                      child: Column(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                            child: Text(
+                              'No results found. Try another search term',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'Montserrat',
+                                //color: GrateMate.darkGrateMate
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
             ),
           ],
         ),
