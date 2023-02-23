@@ -284,25 +284,28 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
                     }
                   });
                 }
-                Dialogs.bottomMaterialDialog(
-                    msg: 'Ingredients added to shopping list.',
-                    title: 'Success',
-                    context: context,
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                        child: IconsOutlineButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          text: 'Accept',
-                          iconData: Icons.check_circle_outline,
-                          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                          iconColor: Colors.white,
-                          color: Color(0xff6cbf6c),
+                if(Users.isLogged){
+
+                  Dialogs.bottomMaterialDialog(
+                      msg: 'Ingredients added to shopping list.',
+                      title: 'Success',
+                      context: context,
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                          child: IconsOutlineButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            text: 'Accept',
+                            iconData: Icons.check_circle_outline,
+                            textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            iconColor: Colors.white,
+                            color: Color(0xff6cbf6c),
+                          ),
                         ),
-                      ),
-                    ]);
+                      ]);
+                }
               },
               icon: const Padding(
                 padding: EdgeInsets.fromLTRB(8,8,0,8),
