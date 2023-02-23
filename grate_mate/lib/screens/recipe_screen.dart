@@ -84,9 +84,16 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.bookmark),
+            icon: Users.userLogged.bookmarks.contains(recipe) ? const Icon(Icons.bookmark) : const Icon(Icons.bookmark_border),
             onPressed: () {
               // Save recipe to bookmarks
+              setState(() {
+                if (Users.userLogged.bookmarks.contains(recipe)) {
+                  Users.userLogged.bookmarks.remove(recipe);
+                } else {
+                  Users.userLogged.bookmarks.add(recipe);
+                }
+              });
             },
           ),
         ],

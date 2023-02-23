@@ -63,7 +63,7 @@ class _ShoppingListState extends State<ShoppingList> {
                         child: Column(
                           children: const [
                             Text(
-                              'Your shopping list is empty. Go to a recipe to add some ingredients',
+                              'Your shopping list is empty. Go to a recipe to add some ingredients!',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: 'Montserrat',

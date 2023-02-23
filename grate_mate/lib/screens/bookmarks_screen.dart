@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../global_information//globalRecipes.dart' as globalRecipes;
 import '../global_information/colors_palette.dart';
+import 'package:grate_mate/global_information/global_users.dart' as Users;
 
 class Bookmark extends StatefulWidget {
   const Bookmark({Key? key}) : super(key: key);
@@ -143,33 +144,73 @@ class _BookmarkState extends State<Bookmark> {
         margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
         child: Column(
           children: <Widget>[
-            Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                  child: Row(
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+              child: Row(
+                children: const [
+                  // Icon of bookmark
+                  Text(
+                    'Bookmarks',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontFamily: 'MontserratExtraBold',
+                      //color: GrateMate.darkGrateMate
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Users.isLogged?
+              Users.userLogged.bookmarks.isEmpty?
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Column(
+                      children: const [
+                        Text(
+                          'You don\'t have any bookmark yet. Go to the recipes and add some!',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Montserrat',
+                            //color: GrateMate.darkGrateMate
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+                :
+            Flexible(
+              child: ListView.builder(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                itemCount: Users.userLogged.bookmarks.length,
+                itemBuilder: (context, index) {
+                  return recipeCard(Users.userLogged.bookmarks[index]);
+                },
+              ),
+            )
+                :
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: Row(
+                children: [
+                  Column(
                     children: const [
-                      // Icon of bookmark
                       Text(
-                        'Bookmarks',
+                        'Log in to have bookmarks',
                         style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'MontserratExtraBold',
+                          fontSize: 20,
+                          fontFamily: 'Montserrat',
                           //color: GrateMate.darkGrateMate
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            Flexible(
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                itemCount: globalRecipes.recipes.length,
-                itemBuilder: (context, index) {
-                  return recipeCard(globalRecipes.recipes[index]);
-                },
+                ],
               ),
             ),
           ],

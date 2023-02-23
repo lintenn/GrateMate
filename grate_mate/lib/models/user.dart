@@ -1,3 +1,4 @@
+import 'package:grate_mate/models/recipe.dart';
 import 'package:tuple/tuple.dart';
 
 import 'ingredient.dart';
@@ -13,6 +14,7 @@ class User {
   String phoneNumber;
   DateTime birthDate;
   List<Tuple2<Ingredient,int>> shoppingList;
+  List<Recipe> bookmarks;
 
   User({
     required this.id,
@@ -24,7 +26,7 @@ class User {
     this.profilePhotoUrl = '',
     this.phoneNumber = '',
     DateTime? dateOfBirth,
-  }) :shoppingList = [], birthDate = dateOfBirth ?? DateTime(0);
+  }) :shoppingList = [], bookmarks = [], birthDate = dateOfBirth ?? DateTime(0);
 
 
 }
