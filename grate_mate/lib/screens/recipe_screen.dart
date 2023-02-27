@@ -58,13 +58,13 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
     );
 
     // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
+   /* AlertDialog alert = AlertDialog(
       title: Text("My title"),
       content: Text("This is my message."),
       actions: [
         okButton,
       ],
-    );
+    );*/
 
     Recipe recipe = ModalRoute.of(context)!.settings.arguments as Recipe;
     return Scaffold(
@@ -90,8 +90,46 @@ class _RecipeScreenState extends State<RecipeScreen> with SingleTickerProviderSt
               setState(() {
                 if (Users.userLogged.bookmarks.contains(recipe)) {
                   Users.userLogged.bookmarks.remove(recipe);
+                  Dialogs.bottomMaterialDialog(
+                      msg: 'Recipe removed from bookmarks',
+                      title: 'Success',
+                      context: context,
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                          child: IconsOutlineButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            text: 'Accept',
+                            iconData: Icons.check_circle_outline,
+                            textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            iconColor: Colors.white,
+                            color: Color(0xff6cbf6c),
+                          ),
+                        ),
+                      ]);
                 } else {
                   Users.userLogged.bookmarks.add(recipe);
+                  Dialogs.bottomMaterialDialog(
+                      msg: 'Recipe added to bookmarks',
+                      title: 'Success',
+                      context: context,
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                          child: IconsOutlineButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            text: 'Accept',
+                            iconData: Icons.check_circle_outline,
+                            textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            iconColor: Colors.white,
+                            color: Color(0xff6cbf6c),
+                          ),
+                        ),
+                      ]);
                 }
               });
             },
