@@ -15,8 +15,10 @@ class _BookmarkState extends State<Bookmark> {
   Widget recipeCard(recipe){
     return Center(
       child: GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, '/recipe', arguments: recipe);
+        onTap: () async {
+          await Navigator.pushNamed(context, '/recipe', arguments: recipe);
+          setState(() {
+          });
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
