@@ -25,63 +25,10 @@ class _CookingScreenState extends State<CookingScreen> {
   var minuteController = TextEditingController();
   var secondController = TextEditingController();
 
-  var timeFocusNodes = <FocusNode>[];
-
-  var focusHour = FocusNode();
-  var focusMinute = FocusNode();
-  var focusSecond = FocusNode();
-
-  var keyBoardActive = false;
-
   @override
   void initState() {
     super.initState();
     resetTimer();
-    timeFocusNodes = [focusHour, focusMinute, focusSecond];
-
-    focusHour.addListener(() {
-      if (focusHour.hasFocus) {
-        hourController.clear();
-        setState(() {
-          keyBoardActive = focusHour.hasFocus ||
-              focusMinute.hasFocus ||
-              focusSecond.hasFocus;
-          time = Duration(
-              hours: int.parse(hourController.text),
-              minutes: time.inMinutes.remainder(60),
-              seconds: time.inSeconds.remainder(60));
-        });
-      }
-    });
-    focusMinute.addListener(() {
-      if (focusMinute.hasFocus) {
-        minuteController.clear();
-        setState(() {
-          keyBoardActive = focusHour.hasFocus ||
-              focusMinute.hasFocus ||
-              focusSecond.hasFocus;
-
-          time = Duration(
-              hours: time.inHours,
-              minutes: int.parse(minuteController.text),
-              seconds: time.inSeconds.remainder(60));
-        });
-      }
-    });
-    focusSecond.addListener(() {
-      if (focusSecond.hasFocus) {
-        secondController.clear();
-        setState(() {
-          keyBoardActive = focusHour.hasFocus ||
-              focusMinute.hasFocus ||
-              focusSecond.hasFocus;
-          time = Duration(
-              hours: time.inHours,
-              minutes: time.inMinutes.remainder(60),
-              seconds: int.parse(secondController.text));
-        });
-      }
-    });
   }
 
   void resetTimer() {
@@ -113,59 +60,54 @@ class _CookingScreenState extends State<CookingScreen> {
         ),
       ),
       body: Container(
-        margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // current step out of all steps
-              Container(
-                child: Text(
-                    "${getCurrentStepIndex(currentStep)} out of ${numSteps}"),
+        margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 40.0),
+        child: Column(
+          children: [
+            // current step out of all steps
+            Container(
+              child: Text(
+                  "${getCurrentStepIndex(currentStep)} out of ${numSteps}"),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              width: 200,
+              child: LinearProgressIndicator(
+                //value: need value between 0 and 1 for progress indicator
+                value: getCurrentStepIndex(currentStep) / numSteps,
+                color: GrateMate.deepBlueGrateMate,
               ),
-              const SizedBox(height: 10),
-              Container(
-                width: 200,
-                child: LinearProgressIndicator(
-                  //value: need value between 0 and 1 for progress indicator
-                  value: getCurrentStepIndex(currentStep) / numSteps,
-                  color: GrateMate.deepBlueGrateMate,
-                ),
-              ),
-              Visibility(
-                  visible: !focusHour.hasFocus,
-                  child: const SizedBox(height: 90)),
-              Visibility(
-                visible: !focusHour.hasFocus,
-                child: Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Center(
-                    child: Text(
-                      widget.recipe.steps[1],
-                      style: const TextStyle(fontSize: 20),
-                      textAlign: TextAlign.center,
-                    ),
+            ),
+            Expanded(flex: 3, child: const SizedBox()),
+            Expanded(
+              flex: 8,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15)),
+                child: Center(
+                  child: Text(
+                    widget.recipe.steps[1],
+                    style: const TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
-              const SizedBox(height: 90),
-              Center(
-                child: Container(
-                  width: 300,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      buildTime(),
-                    ],
-                  ),
+            ),
+            Expanded(flex: 3, child: const SizedBox()),
+            Center(
+              child: Container(
+                width: 300,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buildTime(),
+                  ],
                 ),
               ),
-              const SizedBox(height: 30),
-              Center(child: buildTimerButtons())
-            ],
-          ),
+            ),
+            Expanded(flex: 1, child: const SizedBox()),
+            Center(child: buildTimerButtons())
+          ],
         ),
       ),
     );
@@ -185,38 +127,26 @@ class _CookingScreenState extends State<CookingScreen> {
     secondController.value = TextEditingValue(text: seconds);
 
     return Row(children: [
-      buildTimeUnit(hourController, focusHour),
-      const Padding(
-        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-        child: Text(
-          ":",
-          style: TextStyle(
-              fontSize: 30, color: Colors.grey, fontWeight: FontWeight.bold),
-        ),
-      ),
-      buildTimeUnit(minuteController, focusMinute),
-      const Padding(
-        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-        child: Text(
-          ":",
-          style: TextStyle(
-              fontSize: 30, color: Colors.grey, fontWeight: FontWeight.bold),
-        ),
-      ),
-      buildTimeUnit(secondController, focusSecond),
+      buildTimeUnit(hourController),
+      buildTimeSeparator(),
+      buildTimeUnit(minuteController),
+      buildTimeSeparator(),
+      buildTimeUnit(secondController),
     ]);
   }
 
-  Container buildTimeUnit(
-      TextEditingController controller, FocusNode focusNode) {
+  Container buildTimeUnit(TextEditingController controller) {
     return Container(
       padding: EdgeInsets.all(3),
       decoration: BoxDecoration(
           color: Colors.grey, borderRadius: BorderRadius.circular(5)),
       child: TextField(
+        readOnly: timerStarted,
+        textAlign: TextAlign.center,
+        cursorHeight: 0,
+        cursorWidth: 0,
         maxLength: 2,
         controller: controller,
-        focusNode: focusNode,
         showCursor: true,
         style: const TextStyle(
             fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
@@ -227,21 +157,43 @@ class _CookingScreenState extends State<CookingScreen> {
                 maxWidth: 45, minWidth: 45, maxHeight: 40, minHeight: 40),
             border: OutlineInputBorder(borderSide: BorderSide.none),
             contentPadding: EdgeInsets.all(0)),
+        onTap: () {
+          if (!timerStarted) {
+            controller.selection = TextSelection(
+              baseOffset: 0,
+              extentOffset: controller.value.text.length,
+            );
+          } else {
+            FocusManager.instance.primaryFocus?.unfocus();
+          }
+        },
+        onTapOutside: (event) {
+          setState(() {
+            time = Duration(
+                hours: int.parse(hourController.text),
+                minutes: int.parse(minuteController.text),
+                seconds: int.parse(secondController.text));
+          });
+        },
         onSubmitted: (value) {
           setState(() {
             time = Duration(
                 hours: int.parse(hourController.text),
                 minutes: int.parse(minuteController.text),
                 seconds: int.parse(secondController.text));
-
-            focusNode.unfocus();
-            var currentFocusNodeIndex = timeFocusNodes.indexOf(focusNode);
-            if (currentFocusNodeIndex <= 1) {
-              FocusScope.of(context)
-                  .requestFocus(timeFocusNodes[currentFocusNodeIndex + 1]);
-            }
           });
         },
+      ),
+    );
+  }
+
+  Widget buildTimeSeparator() {
+    return const Padding(
+      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+      child: Text(
+        ":",
+        style: TextStyle(
+            fontSize: 30, color: Colors.grey, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -257,6 +209,7 @@ class _CookingScreenState extends State<CookingScreen> {
               timerStarted = true;
             });
             runTimer();
+            FocusManager.instance.primaryFocus?.unfocus();
           },
           style: ButtonStyle(
             backgroundColor:
@@ -409,9 +362,6 @@ class _CookingScreenState extends State<CookingScreen> {
     hourController.dispose();
     minuteController.dispose();
     secondController.dispose();
-    focusHour.dispose();
-    focusMinute.dispose();
-    focusSecond.dispose();
     super.dispose();
   }
 }
