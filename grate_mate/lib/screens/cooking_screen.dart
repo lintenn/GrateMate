@@ -142,6 +142,7 @@ class _CookingScreenState extends State<CookingScreen> {
           color: Colors.grey, borderRadius: BorderRadius.circular(5)),
       child: TextField(
         readOnly: timerStarted,
+        enableInteractiveSelection: !timerStarted,
         textAlign: TextAlign.center,
         cursorHeight: 0,
         cursorWidth: 0,
