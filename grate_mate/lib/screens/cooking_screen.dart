@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import '../global_information/colors_palette.dart';
 import '../models/recipe.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class CookingScreen extends StatefulWidget {
   final Recipe recipe;
@@ -19,15 +19,27 @@ class _CookingScreenState extends State<CookingScreen> {
   var timerStarted = false;
 
   final Duration defaultTime = const Duration(hours: 0, minutes: 2, seconds: 0);
-  Duration time = Duration();
+  Duration time = const Duration();
 
+  late Recipe recipe;
+  int currentStepIndex = 0;
+  late String currentStep;
+  late int numSteps;
+
+  // Each time unit gets an own controller.
   var hourController = TextEditingController();
   var minuteController = TextEditingController();
   var secondController = TextEditingController();
 
+  // The carousel needs a controller for the voice control.
+  final carouselController = CarouselController();
+
   @override
   void initState() {
     super.initState();
+    recipe = widget.recipe;
+    currentStep = recipe.steps[currentStepIndex];
+    numSteps = recipe.steps.length;
     resetTimer();
   }
 
@@ -39,9 +51,6 @@ class _CookingScreenState extends State<CookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var currentStep = widget.recipe.steps[0];
-    var numSteps = widget.recipe.steps.length;
-
     return Scaffold(
       backgroundColor: GrateMate.grayGrateMate,
       appBar: AppBar(
@@ -49,51 +58,77 @@ class _CookingScreenState extends State<CookingScreen> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          "Cooking ${widget.recipe.name}",
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 25,
-            fontFamily: 'MontserratBold',
-            wordSpacing: 2,
+        title: FittedBox(
+          child: Text(
+            "Cooking ${recipe.name}",
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontFamily: 'MontserratBold',
+              wordSpacing: 2,
+            ),
           ),
         ),
       ),
       body: Container(
-        margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 40.0),
+        margin: const EdgeInsets.fromLTRB(30.0, 40.0, 30, 40.0),
         child: Column(
           children: [
-            // current step out of all steps
             Container(
-              child: Text(
-                  "${getCurrentStepIndex(currentStep)} out of ${numSteps}"),
+              child: Text("${currentStepIndex + 1} out of ${numSteps}"),
             ),
             const SizedBox(height: 10),
             Container(
               width: 200,
               child: LinearProgressIndicator(
-                //value: need value between 0 and 1 for progress indicator
-                value: getCurrentStepIndex(currentStep) / numSteps,
+                //progress indicator value between 0 and 1
+                value: (currentStepIndex + 1) / numSteps,
                 color: GrateMate.deepBlueGrateMate,
               ),
             ),
             Expanded(flex: 3, child: const SizedBox()),
             Expanded(
               flex: 8,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15)),
-                child: Center(
-                  child: Text(
-                    widget.recipe.steps[1],
-                    style: const TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
+              child: SizedBox(
+                // With the mediaquery the carousel keeps its original width even when keyboard pulls up.
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: CarouselSlider(
+                  carouselController: carouselController,
+                  options: CarouselOptions(
+                      enableInfiniteScroll: false,
+                      // Next item is not visible.
+                      viewportFraction: 1,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          currentStepIndex = index;
+                        });
+                      }),
+                  // Build carousel items
+                  items: widget.recipe.steps
+                      .map((item) => Container(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(fontSize: 20),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ))
+                      .toList(),
                 ),
               ),
             ),
-            Expanded(flex: 3, child: const SizedBox()),
+            const Expanded(flex: 3, child: SizedBox()),
             Center(
               child: Container(
                 width: 300,
@@ -105,7 +140,7 @@ class _CookingScreenState extends State<CookingScreen> {
                 ),
               ),
             ),
-            Expanded(flex: 1, child: const SizedBox()),
+            const Expanded(flex: 1, child: SizedBox()),
             Center(child: buildTimerButtons())
           ],
         ),
@@ -113,19 +148,18 @@ class _CookingScreenState extends State<CookingScreen> {
     );
   }
 
-  int getCurrentStepIndex(String currentStep) {
-    return widget.recipe.steps.indexOf(currentStep) + 1;
-  }
-
   Widget buildTime() {
+    // Divide time to hours, minutes, seconds with remainder() func.
     var hours = time.inHours.toString().padLeft(2, '0');
     var minutes = time.inMinutes.remainder(60).toString().padLeft(2, '0');
     var seconds = time.inSeconds.remainder(60).toString().padLeft(2, '0');
 
+    //controller values are given from current time
     hourController.value = TextEditingValue(text: hours);
     minuteController.value = TextEditingValue(text: minutes);
     secondController.value = TextEditingValue(text: seconds);
 
+    // Row of timer input fields.
     return Row(children: [
       buildTimeUnit(hourController),
       buildTimeSeparator(),
@@ -135,20 +169,20 @@ class _CookingScreenState extends State<CookingScreen> {
     ]);
   }
 
+  // One func for building hours, minutes and seconds.
   Container buildTimeUnit(TextEditingController controller) {
     return Container(
       padding: EdgeInsets.all(3),
       decoration: BoxDecoration(
           color: Colors.grey, borderRadius: BorderRadius.circular(5)),
       child: TextField(
+        // Cannot be edited or selected when timer started.
         readOnly: timerStarted,
         enableInteractiveSelection: !timerStarted,
         textAlign: TextAlign.center,
-        cursorHeight: 0,
-        cursorWidth: 0,
         maxLength: 2,
         controller: controller,
-        showCursor: true,
+        showCursor: false,
         style: const TextStyle(
             fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
         keyboardType: TextInputType.number,
@@ -159,6 +193,7 @@ class _CookingScreenState extends State<CookingScreen> {
             border: OutlineInputBorder(borderSide: BorderSide.none),
             contentPadding: EdgeInsets.all(0)),
         onTap: () {
+          //FIXME it is not selecting text anymore when input field first tapped and keyboard pulls up
           if (!timerStarted) {
             controller.selection = TextSelection(
               baseOffset: 0,
@@ -168,6 +203,7 @@ class _CookingScreenState extends State<CookingScreen> {
             FocusManager.instance.primaryFocus?.unfocus();
           }
         },
+        // Save set time when tapped outside or submitted.
         onTapOutside: (event) {
           setState(() {
             time = Duration(
@@ -199,13 +235,13 @@ class _CookingScreenState extends State<CookingScreen> {
     );
   }
 
+  // If timer not started only start button, when started cancel and pause/resume button.
   Widget buildTimerButtons() {
     if (!timerStarted) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
         child: ElevatedButton(
           onPressed: () {
-            print("timer started");
             setState(() {
               timerStarted = true;
             });
@@ -330,6 +366,7 @@ class _CookingScreenState extends State<CookingScreen> {
     }
   }
 
+  // Timer.periodic() runs the callback function every 1 second until timer canceled
   runTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       reduceTime();
@@ -350,12 +387,43 @@ class _CookingScreenState extends State<CookingScreen> {
       setState(() {
         timerStarted = false;
       });
-      makeAlarmSound();
+      makeAlarmSound(context);
     }
   }
 
-  //TODO we need some sound to show that timer is up
-  void makeAlarmSound() {}
+  // Use alert dialog and platform specific alarm tone when timer is up.
+  Future<void> makeAlarmSound(BuildContext context) async {
+    FlutterRingtonePlayer.play(
+        asAlarm: true,
+        android: AndroidSounds.alarm,
+        ios: IosSounds.alarm,
+        looping: true);
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(child: Text('Alarm')),
+          content: const Text(
+            'Time is up!',
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            Center(
+              child: ElevatedButton(
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
+                child: const Text('OK'),
+                onPressed: () {
+                  FlutterRingtonePlayer.stop();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void dispose() {

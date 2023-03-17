@@ -40,6 +40,8 @@ dependencies:
   font_awesome_flutter: ^10.4.0
   tuple: ^2.0.0
   material_dialogs: 1.1.4
+  carousel_slider: ^4.2.1
+  flutter_ringtone_player: ^3.2.0
 
 dev_dependencies:
   flutter_test:
