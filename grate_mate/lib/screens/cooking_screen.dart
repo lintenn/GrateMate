@@ -105,8 +105,9 @@ class _CookingScreenState extends State<CookingScreen> {
                       }),
                   // Build carousel items
                   items: widget.recipe.steps
-                      .map((item) => Container(
-                            child: Container(
+                      .map((item) => Padding(
+                    padding: EdgeInsets.all(5),
+                        child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(15)),
@@ -123,7 +124,7 @@ class _CookingScreenState extends State<CookingScreen> {
                                 ),
                               ),
                             ),
-                          ))
+                      ))
                       .toList(),
                 ),
               ),
@@ -411,7 +412,9 @@ class _CookingScreenState extends State<CookingScreen> {
           actions: [
             Center(
               child: ElevatedButton(
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.green)),
                 child: const Text('OK'),
                 onPressed: () {
                   FlutterRingtonePlayer.stop();
