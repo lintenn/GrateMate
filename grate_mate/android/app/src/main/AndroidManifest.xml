@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gratemate.grate_mate">
    <application
-        android:label="grate_mate"
+        android:label="GrateMate"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
