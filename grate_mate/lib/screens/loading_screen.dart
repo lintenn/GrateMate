@@ -10,7 +10,6 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-
   void setupGrateMate() async {
     await Future.delayed(const Duration(seconds: 3));
     Navigator.pushReplacementNamed(context, '/home');
@@ -24,14 +23,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: GrateMate.deepBlueGrateMate,
       body: Center(
-        child: Icon(
-          Icons.restaurant_menu,
-          size: 120,
-          color: Colors.white,
-        ),
+        child: Image.asset('assets/logo_new.png', height: 120),
       ),
     );
   }
