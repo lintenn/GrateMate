@@ -5,18 +5,16 @@ import '../global_information/colors_palette.dart';
 import '../global_information/global_users.dart' as Users;
 import '../models/recipe.dart';
 
-
-class MainPage extends StatefulWidget{
+class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage>{
-
+class _MainPageState extends State<MainPage> {
   final _searchController = TextEditingController();
   bool _showError = false;
-  List <Recipe> recipes = globalRecipes.recipes;
-  List <Recipe> recipesFiltered = globalRecipes.recipes;
+  List<Recipe> recipes = globalRecipes.recipes;
+  List<Recipe> recipesFiltered = globalRecipes.recipes;
 
   @override
   void dispose() {
@@ -38,12 +36,15 @@ class _MainPageState extends State<MainPage>{
       String searchValue = _searchController.text;
       print(searchValue);
       setState(() {
-        recipesFiltered = recipes.where((recipe) => recipe.name.toLowerCase().contains(searchValue.toLowerCase())).toList();
+        recipesFiltered = recipes
+            .where((recipe) =>
+                recipe.name.toLowerCase().contains(searchValue.toLowerCase()))
+            .toList();
       });
     }
   }
 
-  Widget recipeCard(recipe){
+  Widget recipeCard(recipe) {
     return Center(
       child: GestureDetector(
         onTap: () {
@@ -51,11 +52,11 @@ class _MainPageState extends State<MainPage>{
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-          shape:  RoundedRectangleBorder(
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
-            crossAxisAlignment:CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
@@ -63,15 +64,13 @@ class _MainPageState extends State<MainPage>{
                   recipe.name,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,),
+                    fontSize: 20,
+                  ),
                 ),
               ),
               AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: Image.asset(recipe.imageURL,
-                      fit: BoxFit.cover
-                  )
-              ),
+                  child: Image.asset(recipe.imageURL, fit: BoxFit.cover)),
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
                 child: Text(recipe.description),
@@ -114,16 +113,16 @@ class _MainPageState extends State<MainPage>{
     );
   }
 
-  Widget getDfficultyBar(int difficulty){
+  Widget getDfficultyBar(int difficulty) {
     return Row(
       children: List.generate(
         difficulty,
-            (index) => Container(
+        (index) => Container(
           width: 30,
           height: 15,
           margin: EdgeInsets.only(right: 5),
           decoration: BoxDecoration(
-            color: _getDifficultyColors(index+1),
+            color: _getDifficultyColors(index + 1),
             borderRadius: BorderRadius.circular(5),
           ),
         ),
@@ -165,38 +164,30 @@ class _MainPageState extends State<MainPage>{
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    String userName = Users.isLogged? Users.userLogged.username : '';
+    String userFirstName = Users.isLogged ? Users.userLogged.firstName : '';
     return Scaffold(
       //backgroundColor: GrateMate.earthYellow[400],
       backgroundColor: GrateMate.grayGrateMate,
       body: Container(
         margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
+            Container(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        'Welcome $userName',
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'MontserratExtraBold',
-                          //color: GrateMate.darkGrateMate
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              child: Text(
+                greetUser(userFirstName),
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'MontserratExtraBold',
+                  //color: GrateMate.darkGrateMate
+                ),
               ),
             ),
             Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+              padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
               child: Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -231,13 +222,12 @@ class _MainPageState extends State<MainPage>{
             ),
             _showError
                 ? const Text(
-              'You have to enter a search term',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Color(0xFFFD5D5D),
-                fontFamily: 'MontserratMedium'
-              ),
-            )
+                    'You have to enter a search term',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        color: Color(0xFFFD5D5D),
+                        fontFamily: 'MontserratMedium'),
+                  )
                 : Container(),
             Row(
               children: [
@@ -248,9 +238,9 @@ class _MainPageState extends State<MainPage>{
                       child: Text(
                         'Last recipes',
                         style: TextStyle(
-                            fontSize: 30,
-                            fontFamily: 'MontserratExtraBold',
-                            //color: GrateMate.darkGrateMate
+                          fontSize: 20,
+                          fontFamily: 'MontserratExtraBold',
+                          //color: GrateMate.darkGrateMate
                         ),
                       ),
                     ),
@@ -264,37 +254,35 @@ class _MainPageState extends State<MainPage>{
                 scrollDirection: Axis.vertical,
                 children: globalRecipes.recipes.map((recipe) => recipeCard(recipe)).toList(),
                 ),*/
-              child:
-                !recipesFiltered.isEmpty?
-               ListView.builder(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                itemCount: recipesFiltered.length,
-                itemBuilder: (context, index) {
-                  return recipeCard(recipesFiltered[index]);
-                },
-              )
-              :
-                Row(
-                  children: [
-                    Flexible(
-                      child: Column(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                            child: Text(
-                              'No results found. Try another search term',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'Montserrat',
-                                //color: GrateMate.darkGrateMate
+              child: !recipesFiltered.isEmpty
+                  ? ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      itemCount: recipesFiltered.length,
+                      itemBuilder: (context, index) {
+                        return recipeCard(recipesFiltered[index]);
+                      },
+                    )
+                  : Row(
+                      children: [
+                        Flexible(
+                          child: Column(
+                            children: const [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                                child: Text(
+                                  'No results found. Try another search term',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'Montserrat',
+                                    //color: GrateMate.darkGrateMate
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
             ),
           ],
         ),
@@ -302,5 +290,20 @@ class _MainPageState extends State<MainPage>{
     );
   }
 
-}
+  String greetUser(String userName) {
+    // Get the current time
+    DateTime now = DateTime.now();
 
+    // Extract the current hour from the time
+    int hour = now.hour;
+
+    // Check the current hour and return the appropriate greeting
+    if (hour >= 12 && hour < 18) {
+      return "Good Afternoon $userName";
+    } else if (hour >= 18 || hour < 3) {
+      return "Good Evening $userName";
+    } else {
+      return "Good Morning $userName";
+    }
+  }
+}
