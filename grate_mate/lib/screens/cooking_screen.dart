@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:grate_mate/widgets/mate_text_p.dart';
 import '../global_information/colors_palette.dart';
 import '../models/recipe.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+
+import '../widgets/mate_text_h2.dart';
+import '../widgets/mate_text_h3.dart';
 
 class CookingScreen extends StatefulWidget {
   final Recipe recipe;
@@ -59,14 +63,8 @@ class _CookingScreenState extends State<CookingScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: FittedBox(
-          child: Text(
-            "Cooking ${recipe.name}",
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-              fontFamily: 'MontserratBold',
-              wordSpacing: 2,
-            ),
+          child: MateTextH2.appBar(
+            text: "Cooking ${recipe.name}",
           ),
         ),
       ),
@@ -75,7 +73,7 @@ class _CookingScreenState extends State<CookingScreen> {
         child: Column(
           children: [
             Container(
-              child: Text("${currentStepIndex + 1} out of ${numSteps}"),
+              child: MateTextP(text: "${currentStepIndex + 1} out of ${numSteps}"),
             ),
             const SizedBox(height: 10),
             Container(
@@ -117,7 +115,7 @@ class _CookingScreenState extends State<CookingScreen> {
                                   child: Container(
                                     child: Text(
                                       item,
-                                      style: const TextStyle(fontSize: 20),
+                                      style: MateTextH3Style.normalBlack16,
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -263,7 +261,7 @@ class _CookingScreenState extends State<CookingScreen> {
             alignment: Alignment.center,
             child: const Text(
               'Start',
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: MateTextH3Style.boldWhite16,
             ),
           ),
         ),
@@ -299,9 +297,7 @@ class _CookingScreenState extends State<CookingScreen> {
                 alignment: Alignment.center,
                 child: const Text(
                   'Cancel',
-                  style: TextStyle(
-                      color: GrateMate.deepBlueGrateMate, fontSize: 20),
-                ),
+                  style: MateTextH3Style.boldBlue16),
               ),
             ),
             buildPauseAndResumeButton(),
@@ -334,7 +330,7 @@ class _CookingScreenState extends State<CookingScreen> {
           alignment: Alignment.center,
           child: const Text(
             'Pause',
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: MateTextH3Style.boldWhite16,
           ),
         ),
       );
@@ -360,7 +356,7 @@ class _CookingScreenState extends State<CookingScreen> {
           alignment: Alignment.center,
           child: const Text(
             'Resume',
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: MateTextH3Style.boldWhite16,
           ),
         ),
       );

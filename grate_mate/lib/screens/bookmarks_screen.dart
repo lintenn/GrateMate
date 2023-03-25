@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import '../global_information//globalRecipes.dart' as globalRecipes;
+import 'package:grate_mate/widgets/mate_text_h3.dart';
 import '../global_information/colors_palette.dart';
 import 'package:grate_mate/global_information/global_users.dart' as Users;
+
+import '../widgets/mate_text_h1.dart';
+import '../widgets/mate_text_p.dart';
+
 
 class Bookmark extends StatefulWidget {
   const Bookmark({Key? key}) : super(key: key);
@@ -30,11 +34,8 @@ class _BookmarkState extends State<Bookmark> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
-                child: Text(
-                  recipe.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,),
+                child: MateTextH3.bold(
+                  text: recipe.name,
                 ),
               ),
               AspectRatio(
@@ -45,7 +46,7 @@ class _BookmarkState extends State<Bookmark> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
-                child: Text(recipe.description),
+                child: MateTextP(text: recipe.description),
               ),
               //This code create a bar instead of a rectangles
               /*Padding(
@@ -74,7 +75,7 @@ class _BookmarkState extends State<Bookmark> {
                   children: [
                     Icon(Icons.access_time),
                     SizedBox(width: 5),
-                    Text("${recipe.time} min"),
+                    MateTextP(text: "${recipe.time} min"),
                   ],
                 ),
               )
@@ -151,13 +152,8 @@ class _BookmarkState extends State<Bookmark> {
               child: Row(
                 children: const [
                   // Icon of bookmark
-                  Text(
-                    'Bookmarks',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'MontserratExtraBold',
-                      //color: GrateMate.darkGrateMate
-                    ),
+                  MateTextH1(
+                    text: 'Bookmarks'
                   ),
                 ],
               ),
@@ -171,13 +167,8 @@ class _BookmarkState extends State<Bookmark> {
                   Flexible(
                     child: Column(
                       children: const [
-                        Text(
-                          'You don\'t have any bookmark yet. Go to the recipes and add some!',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Montserrat',
-                            //color: GrateMate.darkGrateMate
-                          ),
+                        MateTextH3.normal(
+                          text: 'You don\'t have any bookmark yet. Go to the recipes and add some!',
                         ),
                       ],
                     ),
@@ -202,13 +193,8 @@ class _BookmarkState extends State<Bookmark> {
                 children: [
                   Column(
                     children: const [
-                      Text(
-                        'Log in to have bookmarks',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Montserrat',
-                          //color: GrateMate.darkGrateMate
-                        ),
+                      MateTextH3.normal(
+                        text: 'Log in to have bookmarks',
                       ),
                     ],
                   ),

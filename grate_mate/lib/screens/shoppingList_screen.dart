@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tuple/tuple.dart';
@@ -7,6 +6,8 @@ import 'package:grate_mate/global_information/global_users.dart' as Users;
 
 import '../global_information/colors_palette.dart';
 import '../models/ingredient.dart';
+import '../widgets/mate_text_h1.dart';
+import '../widgets/mate_text_h3.dart';
 
 class ShoppingList extends StatefulWidget {
   const ShoppingList({Key? key}) : super(key: key);
@@ -40,13 +41,8 @@ class _ShoppingListState extends State<ShoppingList> {
                 children: [
                   Column(
                     children: const [
-                      Text(
-                        'Shopping List',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'MontserratExtraBold',
-                          //color: GrateMate.darkGrateMate
-                        ),
+                      MateTextH1(
+                        text: 'Shopping List',
                       ),
                     ],
                   ),
@@ -62,13 +58,8 @@ class _ShoppingListState extends State<ShoppingList> {
                       Flexible(
                         child: Column(
                           children: const [
-                            Text(
-                              'Your shopping list is empty. Go to a recipe to add some ingredients!',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Montserrat',
-                                //color: GrateMate.darkGrateMate
-                              ),
+                            MateTextH3.normal(
+                              text: 'Your shopping list is empty. Go to a recipe to add some ingredients!',
                             ),
                           ],
                         ),
@@ -95,13 +86,8 @@ class _ShoppingListState extends State<ShoppingList> {
                 children: [
                   Column(
                     children: const [
-                      Text(
-                        'Log in to have a shopping list',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Montserrat',
-                          //color: GrateMate.darkGrateMate
-                        ),
+                      MateTextH3.normal(
+                        text: 'Log in to have a shopping list',
                       ),
                     ],
                   ),
@@ -133,25 +119,19 @@ class _ShoppingListState extends State<ShoppingList> {
                   child: Row(
                     children: [
                       FaIcon(ingredient.item1.icon.icon,
-                        size: 30,
+                        size: 25,
                       ),
                       const SizedBox(width: 10,),
-                      Text(
-                        ingredient.item1.name,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                        ),
+                      MateTextH3.normal(
+                        text: ingredient.item1.name,
                       ),
                     ],
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    '${ingredient.item2} ${ingredient.item1.unit}',
-                    style: const TextStyle(
-                      fontSize: 18.0,
-                    ),
+                  child: MateTextH3.normal(
+                    text: '${ingredient.item2} ${ingredient.item1.unit}',
                   ),
                 ),
               ],

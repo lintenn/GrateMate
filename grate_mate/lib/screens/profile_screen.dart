@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grate_mate/widgets/mate_text_p.dart';
 import '../models/user.dart';
 import '../global_information/global_users.dart' as Users;
 
@@ -16,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 100,),
+            SizedBox(height: 80,),
             Container(
               height: 200,
               decoration: BoxDecoration(
@@ -71,8 +71,8 @@ class ProfileScreen extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12,5,12,5),
       child: Card(
               child: ListTile(
-                title: Text(title),
-                subtitle: Text(subtitle),
+                title: MateTextP(text: title),
+                subtitle: MateTextP(text: subtitle),
               ),
             ),
     );

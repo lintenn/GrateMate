@@ -8,6 +8,9 @@ import '../global_information/global_users.dart' as Users;
 import 'package:material_dialogs/material_dialogs.dart';
 
 import '../models/recipe.dart';
+import '../widgets/mate_text_h2.dart';
+import '../widgets/mate_text_h3.dart';
+import '../widgets/mate_text_p.dart';
 import 'cooking_screen.dart';
 
 class RecipeScreen extends StatefulWidget {
@@ -21,7 +24,8 @@ class _RecipeScreenState extends State<RecipeScreen>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
   late int servings;
-  bool _showAdvice = false;
+  //TODO, remove?
+  //bool _showAdvice = false;
 
   @override
   void initState() {
@@ -46,15 +50,16 @@ class _RecipeScreenState extends State<RecipeScreen>
 
   @override
   Widget build(BuildContext context) {
+    //TODO remove?
     // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () {
-        setState(() {
-          _showAdvice = false;
-        });
-      },
-    );
+    // Widget okButton = TextButton(
+    //   child: Text("OK"),
+    //   onPressed: () {
+    //     setState(() {
+    //       _showAdvice = false;
+    //     });
+    //   },
+    // );
 
     // set up the AlertDialog
     /* AlertDialog alert = AlertDialog(
@@ -73,14 +78,8 @@ class _RecipeScreenState extends State<RecipeScreen>
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          recipe.name,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 25,
-            fontFamily: 'MontserratBold',
-            wordSpacing: 2,
-          ),
+        title: MateTextH2.appBar(
+          text: recipe.name,
         ),
         actions: <Widget>[
           IconButton(
@@ -98,6 +97,8 @@ class _RecipeScreenState extends State<RecipeScreen>
                     Dialogs.bottomMaterialDialog(
                         msg: 'Recipe removed from bookmarks',
                         title: 'Success',
+                        msgStyle: MateTextPStyle.normalBlack14,
+                        titleStyle: MateTextH3Style.boldBlack16,
                         context: context,
                         actions: [
                           Padding(
@@ -108,7 +109,7 @@ class _RecipeScreenState extends State<RecipeScreen>
                               },
                               text: 'Accept',
                               iconData: Icons.check_circle_outline,
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                               iconColor: Colors.white,
@@ -121,6 +122,8 @@ class _RecipeScreenState extends State<RecipeScreen>
                     Dialogs.bottomMaterialDialog(
                         msg: 'Recipe added to bookmarks',
                         title: 'Success',
+                        msgStyle: MateTextPStyle.normalBlack14,
+                        titleStyle: MateTextH3Style.boldBlack16,
                         context: context,
                         actions: [
                           Padding(
@@ -131,7 +134,7 @@ class _RecipeScreenState extends State<RecipeScreen>
                               },
                               text: 'Accept',
                               iconData: Icons.check_circle_outline,
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                               iconColor: Colors.white,
@@ -181,13 +184,9 @@ class _RecipeScreenState extends State<RecipeScreen>
                       ),
                       label: const Text(
                         'Start cooking',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: 'MontserratMedium'),
+                        style: MateTextH3Style.boldWhite16,
                       ),
                       onPressed: () {
-                        print('Cooking ${recipe.name}');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -211,7 +210,7 @@ class _RecipeScreenState extends State<RecipeScreen>
                       children: [
                         const Icon(Icons.access_time),
                         const SizedBox(width: 5),
-                        Text('${recipe.time} min'),
+                        MateTextP(text: '${recipe.time} min'),
                       ],
                     ),
                   ),
@@ -281,12 +280,8 @@ class _RecipeScreenState extends State<RecipeScreen>
                     child: const Icon(Icons.remove),
                   ),
                 ),
-                Text(
-                  'Servings: $servings',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Montserrat',
-                  ),
+                MateTextH3.normal(
+                  text: servings <2? '$servings Serving': '$servings Servings',
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 10),
@@ -355,6 +350,8 @@ class _RecipeScreenState extends State<RecipeScreen>
                   Dialogs.bottomMaterialDialog(
                       msg: 'Ingredients added to shopping list.',
                       title: 'Success',
+                      msgStyle: MateTextPStyle.normalBlack14,
+                      titleStyle: MateTextH3Style.boldBlack16,
                       context: context,
                       actions: [
                         Padding(
@@ -365,7 +362,7 @@ class _RecipeScreenState extends State<RecipeScreen>
                             },
                             text: 'Accept',
                             iconData: Icons.check_circle_outline,
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                             iconColor: Colors.white,
@@ -380,17 +377,14 @@ class _RecipeScreenState extends State<RecipeScreen>
                 child: Icon(
                   Icons.shopping_cart,
                   color: Colors.white,
-                  size: 30.0,
+                  size: 25.0,
                 ),
               ),
               label: const Padding(
                 padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
-                child: Text(
-                  'Add to shopping list',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
+                child: MateTextH3.bold(
+                  text: 'Add to shopping list',
+                  color: Colors.white
                 ),
               ),
             ),
@@ -413,14 +407,11 @@ class _RecipeScreenState extends State<RecipeScreen>
           child: Row(children: <Widget>[
             FaIcon(
               ingredient.item1.icon.icon,
-              size: 30,
+              size: 25,
             ),
             const SizedBox(width: 8),
-            Text(
-              '${ingredient.item1.name} ${ingredient.item2 * servings} ${ingredient.item1.unit}',
-              style: const TextStyle(
-                fontSize: 20,
-              ),
+            MateTextH3.normal(
+              text: '${ingredient.item1.name} ${ingredient.item2 * servings} ${ingredient.item1.unit}',
             ),
           ])),
     );
@@ -466,11 +457,8 @@ class _RecipeScreenState extends State<RecipeScreen>
               ),
             ),
             Flexible(
-              child: Text(
-                step,
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
+              child: MateTextH3.normal(
+                text: step,
               ),
             ),
           ],

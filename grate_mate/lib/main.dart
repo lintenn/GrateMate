@@ -35,9 +35,6 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: GrateMate.deepBlueGrateMate,
         fontFamily: 'Montserrat',
-
-
-
       ),
       //home: const RecipeScreen(),
       initialRoute: '/',

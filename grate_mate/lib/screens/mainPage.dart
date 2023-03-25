@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:grate_mate/widgets/mate_error_text.dart';
 import '../global_information//globalRecipes.dart' as globalRecipes;
 import 'dart:core';
 import '../global_information/colors_palette.dart';
-import '../global_information/global_users.dart' as Users;
 import '../models/recipe.dart';
+import '../widgets/mate_text_h1.dart';
+import '../widgets/mate_text_h2.dart';
+import '../widgets/mate_text_h3.dart';
+import '../widgets/mate_text_p.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -60,12 +64,8 @@ class _MainPageState extends State<MainPage> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
-                child: Text(
-                  recipe.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
+                child: MateTextH3.bold(
+                  text: recipe.name,
                 ),
               ),
               AspectRatio(
@@ -73,7 +73,7 @@ class _MainPageState extends State<MainPage> {
                   child: Image.asset(recipe.imageURL, fit: BoxFit.cover)),
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
-                child: Text(recipe.description),
+                child: MateTextP(text: recipe.description),
               ),
               //This code create a bar instead of a rectangles
               /*Padding(
@@ -102,7 +102,7 @@ class _MainPageState extends State<MainPage> {
                   children: [
                     Icon(Icons.access_time),
                     SizedBox(width: 5),
-                    Text("${recipe.time} min"),
+                    MateTextP(text:"${recipe.time} min"),
                   ],
                 ),
               )
@@ -166,7 +166,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    String userFirstName = Users.isLogged ? Users.userLogged.firstName : '';
     return Scaffold(
       //backgroundColor: GrateMate.earthYellow[400],
       backgroundColor: GrateMate.grayGrateMate,
@@ -177,13 +176,8 @@ class _MainPageState extends State<MainPage> {
           children: <Widget>[
             Container(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Text(
-                greetUser(userFirstName),
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'MontserratExtraBold',
-                  //color: GrateMate.darkGrateMate
-                ),
+              child: MateTextH1(
+                text: greetUser(),
               ),
             ),
             Container(
@@ -206,6 +200,10 @@ class _MainPageState extends State<MainPage> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(25, 20, 0, 10),
                     hintText: 'Search',
+                      hintStyle: const TextStyle(
+                        fontFamily: 'MontSerrat',
+                        fontSize: 14,
+                      ),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: _search,
@@ -221,13 +219,12 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             _showError
-                ? const Text(
-                    'You have to enter a search term',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: Color(0xFFFD5D5D),
-                        fontFamily: 'MontserratMedium'),
-                  )
+                ? const Padding(
+                  padding: EdgeInsets.fromLTRB(20.0,0,0,0),
+                  child: MateTextError(
+                      text: 'You have to enter a search term',
+                    ),
+                )
                 : Container(),
             Row(
               children: [
@@ -235,14 +232,7 @@ class _MainPageState extends State<MainPage> {
                   children: const [
                     Padding(
                       padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                      child: Text(
-                        'Last recipes',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'MontserratExtraBold',
-                          //color: GrateMate.darkGrateMate
-                        ),
-                      ),
+                      child: MateTextH2(text:'Last Recipes'),
                     ),
                   ],
                 ),
@@ -290,7 +280,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  String greetUser(String userName) {
+  String greetUser() {
     // Get the current time
     DateTime now = DateTime.now();
 
@@ -299,11 +289,11 @@ class _MainPageState extends State<MainPage> {
 
     // Check the current hour and return the appropriate greeting
     if (hour >= 12 && hour < 18) {
-      return "Good Afternoon $userName";
+      return "Good Afternoon";
     } else if (hour >= 18 || hour < 3) {
-      return "Good Evening $userName";
+      return "Good Evening";
     } else {
-      return "Good Morning $userName";
+      return "Good Morning";
     }
   }
 }
