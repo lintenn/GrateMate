@@ -160,6 +160,6 @@ List<Recipe> recipes = [
       Tuple2<Ingredient, int>(globalIngredients.tomatoPaste, 1),
       Tuple2<Ingredient, int>(globalIngredients.cheese, 100)
     ],
-    category: globalCategories.pasta,
+    category: globalCategories.meat,
   ),
 ];
