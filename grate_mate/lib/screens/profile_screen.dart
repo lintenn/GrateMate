@@ -3,6 +3,7 @@ import 'package:grate_mate/widgets/mate_text_p.dart';
 import '../global_information/colors_palette.dart';
 import '../models/user.dart';
 import '../global_information/global_users.dart' as Users;
+import 'about_screen.dart';
 
 
 class ProfileScreen extends StatelessWidget {
@@ -63,7 +64,20 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     child: const Text('Logout'),
+
                   ),
+                ),
+                const SizedBox(height: 30),
+                GestureDetector(
+                  child: const MateTextP.hyperLink(
+                      text: 'About GrateMate'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AboutScreen()),
+                    );
+                  },
                 )
               ],
             ),

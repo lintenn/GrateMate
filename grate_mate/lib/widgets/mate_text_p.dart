@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grate_mate/global_information/colors_palette.dart';
 
 class MateTextP extends StatelessWidget {
   final String text;
@@ -6,6 +7,7 @@ class MateTextP extends StatelessWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final Color color;
+  final TextDecoration decoration;
 
   const MateTextP({
     super.key,
@@ -14,6 +16,17 @@ class MateTextP extends StatelessWidget {
     this.fontSize = 14,
     this.fontWeight = FontWeight.normal,
     this.color = Colors.black,
+    this.decoration = TextDecoration.none
+  });
+
+  const MateTextP.hyperLink({
+    super.key,
+    required this.text,
+    this.fontFamily = 'Montserrat',
+    this.fontSize = 14,
+    this.fontWeight = FontWeight.normal,
+    this.color = GrateMate.deepBlueGrateMate,
+    this.decoration = TextDecoration.underline
   });
 
   @override
@@ -25,6 +38,7 @@ class MateTextP extends StatelessWidget {
         fontSize: fontSize,
         fontWeight: fontWeight,
         color: color,
+        decoration: decoration,
       ),
     );
   }
