@@ -2,6 +2,7 @@ library recipes;
 
 import 'package:grate_mate/models/recipe.dart';
 import 'package:grate_mate/global_information/global_ingredients.dart' as globalIngredients;
+import 'package:grate_mate/global_information/global_categories.dart' as globalCategories;
 import 'package:tuple/tuple.dart';
 
 import 'package:grate_mate/models/ingredient.dart';
@@ -24,7 +25,9 @@ List<Recipe> recipes = [
         Tuple2<Ingredient, int>(globalIngredients.flour, 250),
         Tuple2<Ingredient, int>(globalIngredients.eggs, 2),
         Tuple2<Ingredient, int>(globalIngredients.milk, 250)
-      ]),
+      ],
+      category: globalCategories.desserts,
+  ),
   Recipe(name: "burger",
       description: "Real texas burger",
       steps: ["Prepare ingredients", "Finish recipe"],
@@ -37,7 +40,9 @@ List<Recipe> recipes = [
         Tuple2<Ingredient, int>(globalIngredients.bacon, 2),
         Tuple2<Ingredient, int>(globalIngredients.salad, 20),
         Tuple2<Ingredient, int>(globalIngredients.meat, 1)
-      ]),
+      ],
+      category: globalCategories.beef,
+  ),
   Recipe(name: "Tortilla",
       description: "Tipical spanish tortilla",
       steps: ["Prepare ingredients", "Do the dish"],
@@ -49,5 +54,7 @@ List<Recipe> recipes = [
         Tuple2<Ingredient, int>(globalIngredients.potato, 500),
         Tuple2<Ingredient, int>(globalIngredients.oil, 1),
         Tuple2<Ingredient, int>(globalIngredients.salt, 10),
-      ]),
+      ],
+      category: globalCategories.vegetarian,
+  ),
 ];

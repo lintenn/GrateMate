@@ -1,6 +1,9 @@
+
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grate_mate/widgets/mate_error_text.dart';
 import '../global_information//globalRecipes.dart' as globalRecipes;
+import '../global_information/global_categories.dart' as globalCategories;
 import 'dart:core';
 import '../global_information/colors_palette.dart';
 import '../models/recipe.dart';
@@ -17,8 +20,10 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final _searchController = TextEditingController();
   bool _showError = false;
+  bool _expandCategories = false;
   List<Recipe> recipes = globalRecipes.recipes;
   List<Recipe> recipesFiltered = globalRecipes.recipes;
+  String filter = '';
 
   @override
   void dispose() {
@@ -81,19 +86,68 @@ class _MainPageState extends State<MainPage> {
               ),
               _showError
                   ? const Padding(
-                padding: EdgeInsets.fromLTRB(20.0,0,0,0),
-                child: MateTextError(
-                  text: 'You have to enter a search term',
-                ),
-              )
+                      padding: EdgeInsets.fromLTRB(20.0, 0, 0, 0),
+                      child: MateTextError(
+                        text: 'You have to enter a search term',
+                      ),
+                    )
                   : Container(),
+              // Display a categories button
+
+              ElevatedButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    MateTextH2(
+                      text: 'Categories',
+                    ),
+                    Icon(
+                      this._expandCategories
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  setState(() {
+                    _expandCategories = !_expandCategories;
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: GrateMate.earthYellow,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+
+              this._expandCategories ?
+                // This must be scrollable, using the function _buildCategory
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  height: 100,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: globalCategories.categories.length,
+                    itemBuilder: (context, index) {
+                      return _buildCategory(
+                        text: globalCategories.categories[index].name,
+                        icon: globalCategories.categories[index].icon,
+                      );
+                    },
+                  ),
+                )
+              : Container(),
+
               Row(
                 children: [
                   Column(
                     children: const [
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 20, 10, 10),
-                        child: MateTextH2(text:'Last Recipes'),
+                        child: MateTextH2(text: 'Last Recipes'),
                       ),
                     ],
                   ),
@@ -107,37 +161,88 @@ class _MainPageState extends State<MainPage> {
                   ),*/
                 child: !recipesFiltered.isEmpty
                     ? ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  itemCount: recipesFiltered.length,
-                  itemBuilder: (context, index) {
-                    return recipeCard(recipesFiltered[index]);
-                  },
-                )
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        itemCount: recipesFiltered.length,
+                        itemBuilder: (context, index) {
+                          return recipeCard(recipesFiltered[index]);
+                        },
+                      )
                     : Row(
-                  children: [
-                    Flexible(
-                      child: Column(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                            child: Text(
-                              'No results found. Try another search term',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'Montserrat',
-                                //color: GrateMate.darkGrateMate
-                              ),
+                        children: [
+                          Flexible(
+                            child: Column(
+                              children: const [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                                  child: Text(
+                                    'No results found. Try another search term',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'Montserrat',
+                                      //color: GrateMate.darkGrateMate
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _changeFilter(String newFilter) {
+    setState(() {
+      if (filter == newFilter) {
+        filter = '';
+      } else {
+        filter = newFilter;
+      }
+
+      if (filter == '') {
+        recipesFiltered = recipes;
+      } else {
+        recipesFiltered =
+            recipes.where((recipe) => recipe.category.name == filter).toList();
+      }
+    });
+  }
+
+  Widget _buildCategory({String text = 'Breakfast', required FaIcon icon}) {
+    return SizedBox(
+      width: 100,
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+            decoration: BoxDecoration(
+              color: filter == text ? GrateMate.earthYellow : Colors.white,
+              borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 5.0,
+                  spreadRadius: 1.0,
+                  offset: const Offset(0.0, 2),
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon: icon,
+              onPressed: () {
+                _changeFilter(text);
+              },
+            ),
+          ),
+          MateTextH3.bold(
+            text: text,
+          ),
+        ],
       ),
     );
   }
@@ -158,7 +263,7 @@ class _MainPageState extends State<MainPage> {
       setState(() {
         recipesFiltered = recipes
             .where((recipe) =>
-            recipe.name.toLowerCase().contains(searchValue.toLowerCase()))
+                recipe.name.toLowerCase().contains(searchValue.toLowerCase()))
             .toList();
       });
     }
@@ -218,7 +323,7 @@ class _MainPageState extends State<MainPage> {
                   children: [
                     Icon(Icons.access_time),
                     SizedBox(width: 5),
-                    MateTextP(text:"${recipe.time} min"),
+                    MateTextP(text: "${recipe.time} min"),
                   ],
                 ),
               )
@@ -279,8 +384,6 @@ class _MainPageState extends State<MainPage> {
         return Colors.grey;
     }
   }
-
-
 
   String greetUser() {
     // Get the current time
