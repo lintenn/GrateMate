@@ -26,6 +26,122 @@ class _MainPageState extends State<MainPage> {
     super.dispose();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: GrateMate.grayGrateMate,
+        body: Container(
+          margin: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                child: MateTextH1(
+                  text: greetUser(),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(0, 20, 10, 10),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 5.0,
+                        spreadRadius: 1.0,
+                        offset: Offset(0.0, 2),
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.fromLTRB(25, 20, 0, 10),
+                      hintText: 'Search',
+                      hintStyle: const TextStyle(
+                        fontFamily: 'MontSerrat',
+                        fontSize: 14,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: _search,
+                      ),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              _showError
+                  ? const Padding(
+                padding: EdgeInsets.fromLTRB(20.0,0,0,0),
+                child: MateTextError(
+                  text: 'You have to enter a search term',
+                ),
+              )
+                  : Container(),
+              Row(
+                children: [
+                  Column(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 20, 10, 10),
+                        child: MateTextH2(text:'Last Recipes'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Flexible(
+                /*child: GridView.count(
+                  crossAxisCount: 1,
+                  scrollDirection: Axis.vertical,
+                  children: globalRecipes.recipes.map((recipe) => recipeCard(recipe)).toList(),
+                  ),*/
+                child: !recipesFiltered.isEmpty
+                    ? ListView.builder(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  itemCount: recipesFiltered.length,
+                  itemBuilder: (context, index) {
+                    return recipeCard(recipesFiltered[index]);
+                  },
+                )
+                    : Row(
+                  children: [
+                    Flexible(
+                      child: Column(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                            child: Text(
+                              'No results found. Try another search term',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'Montserrat',
+                                //color: GrateMate.darkGrateMate
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   void _search() {
     if (_searchController.text.isEmpty) {
       setState(() {
@@ -42,7 +158,7 @@ class _MainPageState extends State<MainPage> {
       setState(() {
         recipesFiltered = recipes
             .where((recipe) =>
-                recipe.name.toLowerCase().contains(searchValue.toLowerCase()))
+            recipe.name.toLowerCase().contains(searchValue.toLowerCase()))
             .toList();
       });
     }
@@ -55,7 +171,7 @@ class _MainPageState extends State<MainPage> {
           Navigator.pushNamed(context, '/recipe', arguments: recipe);
         },
         child: Card(
-          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -164,121 +280,7 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      //backgroundColor: GrateMate.earthYellow[400],
-      backgroundColor: GrateMate.grayGrateMate,
-      body: Container(
-        margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: MateTextH1(
-                text: greetUser(),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 5.0,
-                      spreadRadius: 1.0,
-                      offset: Offset(0.0, 2),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.fromLTRB(25, 20, 0, 10),
-                    hintText: 'Search',
-                      hintStyle: const TextStyle(
-                        fontFamily: 'MontSerrat',
-                        fontSize: 14,
-                      ),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: _search,
-                    ),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(25),
-                      ),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            _showError
-                ? const Padding(
-                  padding: EdgeInsets.fromLTRB(20.0,0,0,0),
-                  child: MateTextError(
-                      text: 'You have to enter a search term',
-                    ),
-                )
-                : Container(),
-            Row(
-              children: [
-                Column(
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                      child: MateTextH2(text:'Last Recipes'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Flexible(
-              /*child: GridView.count(
-                crossAxisCount: 1,
-                scrollDirection: Axis.vertical,
-                children: globalRecipes.recipes.map((recipe) => recipeCard(recipe)).toList(),
-                ),*/
-              child: !recipesFiltered.isEmpty
-                  ? ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      itemCount: recipesFiltered.length,
-                      itemBuilder: (context, index) {
-                        return recipeCard(recipesFiltered[index]);
-                      },
-                    )
-                  : Row(
-                      children: [
-                        Flexible(
-                          child: Column(
-                            children: const [
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                                child: Text(
-                                  'No results found. Try another search term',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'Montserrat',
-                                    //color: GrateMate.darkGrateMate
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   String greetUser() {
     // Get the current time

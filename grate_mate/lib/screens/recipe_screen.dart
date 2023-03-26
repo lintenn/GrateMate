@@ -34,20 +34,6 @@ class _RecipeScreenState extends State<RecipeScreen>
     servings = 1;
   }
 
-  void _incrementServings() {
-    setState(() {
-      servings++;
-    });
-  }
-
-  void _decrementServings() {
-    setState(() {
-      if (servings > 1) {
-        servings--;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     //TODO remove?
@@ -257,6 +243,20 @@ class _RecipeScreenState extends State<RecipeScreen>
         ],
       ),
     );
+  }
+
+  void _incrementServings() {
+    setState(() {
+      servings++;
+    });
+  }
+
+  void _decrementServings() {
+    setState(() {
+      if (servings > 1) {
+        servings--;
+      }
+    });
   }
 
   Widget getIngredientsTabWidget(Recipe recipe) {

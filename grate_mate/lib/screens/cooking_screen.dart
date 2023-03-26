@@ -47,12 +47,6 @@ class _CookingScreenState extends State<CookingScreen> {
     resetTimer();
   }
 
-  void resetTimer() {
-    setState(() {
-      time = defaultTime;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +63,7 @@ class _CookingScreenState extends State<CookingScreen> {
         ),
       ),
       body: Container(
-        margin: const EdgeInsets.fromLTRB(30.0, 40.0, 30, 40.0),
+        margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20, 40.0),
         child: Column(
           children: [
             Container(
@@ -106,6 +100,7 @@ class _CookingScreenState extends State<CookingScreen> {
                       .map((item) => Padding(
                     padding: EdgeInsets.all(5),
                         child: Container(
+                          margin: EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(15)),
@@ -145,6 +140,12 @@ class _CookingScreenState extends State<CookingScreen> {
         ),
       ),
     );
+  }
+
+  void resetTimer() {
+    setState(() {
+      time = defaultTime;
+    });
   }
 
   Widget buildTime() {

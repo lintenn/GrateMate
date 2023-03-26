@@ -6,7 +6,6 @@ import 'package:grate_mate/global_information/global_users.dart' as Users;
 import '../widgets/mate_text_h1.dart';
 import '../widgets/mate_text_p.dart';
 
-
 class Bookmark extends StatefulWidget {
   const Bookmark({Key? key}) : super(key: key);
 
@@ -15,22 +14,59 @@ class Bookmark extends StatefulWidget {
 }
 
 class _BookmarkState extends State<Bookmark> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: GrateMate.grayGrateMate,
+        body: Container(
+          margin: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                child: const MateTextH1(text: 'Bookmarks'),
+              ),
+              Users.isLogged
+                  ? Users.userLogged.bookmarks.isEmpty
+                      ? const MateTextH3.normal(
+                          text:
+                              'You don\'t have any bookmark yet. Go to the recipes and add some!',
+                        )
+                      : Flexible(
+                          child: ListView.builder(
+                            itemCount: Users.userLogged.bookmarks.length,
+                            itemBuilder: (context, index) {
+                              return recipeCard(
+                                  Users.userLogged.bookmarks[index]);
+                            },
+                          ),
+                        )
+                  : const MateTextH3.normal(
+                text: 'Log in to have bookmarks',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-  Widget recipeCard(recipe){
+  Widget recipeCard(recipe) {
     return Center(
       child: GestureDetector(
         onTap: () async {
           await Navigator.pushNamed(context, '/recipe', arguments: recipe);
-          setState(() {
-          });
+          setState(() {});
         },
         child: Card(
-          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-          shape:  RoundedRectangleBorder(
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
-            crossAxisAlignment:CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
@@ -40,10 +76,7 @@ class _BookmarkState extends State<Bookmark> {
               ),
               AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: Image.asset(recipe.imageURL,
-                      fit: BoxFit.cover
-                  )
-              ),
+                  child: Image.asset(recipe.imageURL, fit: BoxFit.cover)),
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
                 child: MateTextP(text: recipe.description),
@@ -73,8 +106,8 @@ class _BookmarkState extends State<Bookmark> {
                 padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
                 child: Row(
                   children: [
-                    Icon(Icons.access_time),
-                    SizedBox(width: 5),
+                    const Icon(Icons.access_time),
+                    const SizedBox(width: 5),
                     MateTextP(text: "${recipe.time} min"),
                   ],
                 ),
@@ -86,16 +119,16 @@ class _BookmarkState extends State<Bookmark> {
     );
   }
 
-  Widget getDfficultyBar(int difficulty){
+  Widget getDfficultyBar(int difficulty) {
     return Row(
       children: List.generate(
         difficulty,
-            (index) => Container(
+        (index) => Container(
           width: 30,
           height: 15,
-          margin: EdgeInsets.only(right: 5),
+          margin: const EdgeInsets.only(right: 5),
           decoration: BoxDecoration(
-            color: _getDifficultyColors(index+1),
+            color: _getDifficultyColors(index + 1),
             borderRadius: BorderRadius.circular(5),
           ),
         ),
@@ -135,75 +168,5 @@ class _BookmarkState extends State<Bookmark> {
       default:
         return Colors.grey;
     }
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      //backgroundColor: GrateMate.earthYellow[400],
-      backgroundColor: GrateMate.grayGrateMate,
-      body: Container(
-        margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-              child: Row(
-                children: const [
-                  // Icon of bookmark
-                  MateTextH1(
-                    text: 'Bookmarks'
-                  ),
-                ],
-              ),
-            ),
-            Users.isLogged?
-              Users.userLogged.bookmarks.isEmpty?
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Row(
-                children: [
-                  Flexible(
-                    child: Column(
-                      children: const [
-                        MateTextH3.normal(
-                          text: 'You don\'t have any bookmark yet. Go to the recipes and add some!',
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
-                :
-            Flexible(
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                itemCount: Users.userLogged.bookmarks.length,
-                itemBuilder: (context, index) {
-                  return recipeCard(Users.userLogged.bookmarks[index]);
-                },
-              ),
-            )
-                :
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Row(
-                children: [
-                  Column(
-                    children: const [
-                      MateTextH3.normal(
-                        text: 'Log in to have bookmarks',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

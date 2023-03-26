@@ -24,142 +24,125 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
-    return Scaffold(
-      backgroundColor: GrateMate.grayGrateMate,
-      //SingleChildScrollView otherwise screen overflow due to keyboard popping up
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 50,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: Row(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: GrateMate.grayGrateMate,
+        //SingleChildScrollView otherwise screen overflow due to keyboard popping up
+        body: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+            const Padding(
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: MateTextH1(
+              text: 'Log in',
+            ),
+          ),
+          Form(
+            key: _formKey,
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 16.0, 0, 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      children: const [
-                        MateTextH1(
-                          text: 'Log in',
-                        ),
-                      ],
-                    ),
-                  ],
+                  const MateTextP(
+                  text: 'Email',
+                ),
+                TextFormField(
+                controller: _emailController,
+                  // The validator receives the text that the user has entered.
+                validator: (value) {
+            if (value == null || value.isEmpty) {
+            return 'Please enter your email';
+            }
+            return null;
+            },
+                style: const TextStyle(
+                  fontFamily: 'MontSerrat',
+                  fontSize: 14,
+                ),
+                onTapOutside: (event) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                }
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            const MateTextP(
+              text: 'Password',
+            ),
+            TextFormField(
+                controller: _passwordController,
+                // The validator receives the text that the user has entered.
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  return null;
+                },
+                style: const TextStyle(
+                  fontFamily: 'MontSerrat',
+                  fontSize: 14,
+                ),
+                onTapOutside: (event) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                }
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            _errorLogin
+                ? const MateTextError(
+              text: 'Invalid email or password',
+            )
+                : Container(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      GrateMate.yellowNorthFace),
+                ),
+                onPressed: () {
+                  setState(() {
+                    if (_formKey.currentState!.validate()) {
+                      String email = _emailController.text;
+                      String password = _passwordController.text;
+                      User loggedUser = Users.users.firstWhere(
+                              (user) =>
+                          user.email == email &&
+                              user.password == password,
+                          orElse: () => User(id: -1));
+                      if (loggedUser.id == -1) {
+                        _errorLogin = true;
+                      } else {
+                        Navigator.pushReplacementNamed(
+                            context, '/home');
+                        Users.isLogged = true;
+                        Users.userLogged = loggedUser;
+                      }
+                    }
+                  });
+                },
+                child: const Text(
+                  'Log in',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              Form(
-                key: _formKey,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Column(
-                            children: const [
-                              MateTextP(
-                                text: 'Email',
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      TextFormField(
-                        controller: _emailController,
-                        // The validator receives the text that the user has entered.
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(
-                          fontFamily: 'MontSerrat',
-                          fontSize: 14,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        children: [
-                          Column(
-                            children: const [
-                              MateTextP(
-                                text: 'Password',
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      TextFormField(
-                        controller: _passwordController,
-                        // The validator receives the text that the user has entered.
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(
-                          fontFamily: 'MontSerrat',
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      _errorLogin
-                          ? const MateTextError(
-                              text: 'Invalid email or password',
-                            )
-                          : Container(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                GrateMate.yellowNorthFace),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              if (_formKey.currentState!.validate()) {
-                                String email = _emailController.text;
-                                String password = _passwordController.text;
-                                User loggedUser = Users.users.firstWhere(
-                                    (user) =>
-                                        user.email == email &&
-                                        user.password == password,
-                                    orElse: () => User(id: -1));
-                                if (loggedUser.id == -1) {
-                                  _errorLogin = true;
-                                } else {
-                                  print('here');
-                                  Navigator.pushReplacementNamed(
-                                      context, '/home');
-                                  Users.isLogged = true;
-                                  Users.userLogged = loggedUser;
-                                }
-                              }
-                            });
-                          },
-                          child: const Text(
-                            'Log in',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            ),
             ],
           ),
         ),
       ),
+      ],
+    ),)
+    ,
+    )
+    ,
+    )
+    ,
     );
   }
 }
