@@ -1,20 +1,13 @@
-# grate_mate
+# GrateMate
 
-A recipes reader
+We built the basics of a recipe application.
 
-## Getting Started
+## Features:
+- recipe search
+- bookmarks
+- shopping list
+- recipe navigation by UI and Voice (STT and TTS)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-Main colors of the app:
+## Main colors of the app:
 
 https://coolors.co/606c38-283618-fefae0-dda15e-bc6c25
