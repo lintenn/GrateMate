@@ -10,4 +10,4 @@ We built the basics of a recipe application.
 
 ## Main colors of the app:
 
-https://coolors.co/606c38-283618-fefae0-dda15e-bc6c25
+https://coolors.co/palette/000000-14213d-fca311-e5e5e5-ffffff
