@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grate_mate/widgets/mate_error_text.dart';
@@ -47,7 +46,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.fromLTRB(0, 20, 10, 10),
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                 child: Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -100,6 +99,7 @@ class _MainPageState extends State<MainPage> {
                   children: <Widget>[
                     MateTextH2(
                       text: 'Categories',
+                      color: Colors.white,
                     ),
                     Icon(
                       this._expandCategories
@@ -115,7 +115,7 @@ class _MainPageState extends State<MainPage> {
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: GrateMate.earthYellow,
+                  backgroundColor: GrateMate.yellowNorthFace,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -239,8 +239,9 @@ class _MainPageState extends State<MainPage> {
               },
             ),
           ),
-          MateTextH3.bold(
+          MateTextP(
             text: text,
+            fontWeight: FontWeight.bold,
           ),
         ],
       ),
