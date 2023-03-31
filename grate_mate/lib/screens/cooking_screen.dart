@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:grate_mate/widgets/mate_text_p.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:text_to_speech/text_to_speech.dart';
 import '../global_information/colors_palette.dart';
 import '../models/recipe.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -19,12 +22,14 @@ class CookingScreen extends StatefulWidget {
 }
 
 class _CookingScreenState extends State<CookingScreen> {
+  // timer related vars, default for alarm is 2 minutes
   Timer? timer;
   var timerStarted = false;
 
   final Duration defaultTime = const Duration(hours: 0, minutes: 2, seconds: 0);
   Duration time = const Duration();
 
+  // Recipe vars
   late Recipe recipe;
   int currentStepIndex = 0;
   late String currentStep;
@@ -38,6 +43,16 @@ class _CookingScreenState extends State<CookingScreen> {
   // The carousel needs a controller for the voice control.
   final carouselController = CarouselController();
 
+  // TTS vars
+  TextToSpeech tts = TextToSpeech();
+  double volume = 1.0;
+  double rate = 1.0;
+  double pitch = 1.0;
+  String language = 'en-US';
+
+  // STT var
+  stt.SpeechToText speech = stt.SpeechToText();
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +60,34 @@ class _CookingScreenState extends State<CookingScreen> {
     currentStep = recipe.steps[currentStepIndex];
     numSteps = recipe.steps.length;
     resetTimer();
+
+    // init tts
+    tts.setLanguage(language);
+    tts.setVolume(volume);
+    tts.setRate(rate);
+    tts.setPitch(pitch);
+
+    // voice greeting
+    greetUser();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    try {
+      await speech.initialize();
+    } catch (e) {
+      print("Error with initializing STT: $e");
+    }
+  }
+
+  void speakCurrentStep() {
+    tts.speak(recipe.steps[currentStepIndex]);
+  }
+
+  void greetUser() {
+    tts.speak(
+        "I see you are craving some ${recipe.name}! Let's do it! Call me any time by 'hey mate'.");
   }
 
   @override
@@ -67,10 +110,11 @@ class _CookingScreenState extends State<CookingScreen> {
         child: Column(
           children: [
             Container(
-              child: MateTextP(text: "${currentStepIndex + 1} out of ${numSteps}"),
+              child:
+                  MateTextP(text: "${currentStepIndex + 1} out of ${numSteps}"),
             ),
             const SizedBox(height: 10),
-            Container(
+             Container(
               width: 200,
               child: LinearProgressIndicator(
                 //progress indicator value between 0 and 1
@@ -78,7 +122,32 @@ class _CookingScreenState extends State<CookingScreen> {
                 color: GrateMate.deepBlueGrateMate,
               ),
             ),
-            Expanded(flex: 3, child: const SizedBox()),
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+              child: ClipOval(
+                child: Material(
+                  color: speech.isListening
+                      ? GrateMate.yellowNorthFace
+                      : GrateMate.deepBlueGrateMate,
+                  child: InkWell(
+                    splashColor: speech.isListening
+                        ? GrateMate.deepBlueGrateMate
+                        : GrateMate.yellowNorthFace,
+                    onTap: () {
+                      toggleListening();
+                    },
+                    child: const SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: Icon(
+                          Icons.mic_rounded,
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
+              ),
+            ),
+            const Expanded(flex: 3, child: const SizedBox()),
             Expanded(
               flex: 8,
               child: SizedBox(
@@ -98,9 +167,9 @@ class _CookingScreenState extends State<CookingScreen> {
                   // Build carousel items
                   items: widget.recipe.steps
                       .map((item) => Padding(
-                    padding: EdgeInsets.all(5),
-                        child: Container(
-                          margin: EdgeInsets.all(5),
+                            padding: EdgeInsets.all(5),
+                            child: Container(
+                              margin: EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(15)),
@@ -117,7 +186,7 @@ class _CookingScreenState extends State<CookingScreen> {
                                 ),
                               ),
                             ),
-                      ))
+                          ))
                       .toList(),
                 ),
               ),
@@ -140,6 +209,28 @@ class _CookingScreenState extends State<CookingScreen> {
         ),
       ),
     );
+  }
+
+  toggleListening() async {
+    if (!speech.isListening) {
+      await speech.listen(onResult: onSTTResult);
+    } else {
+      await speech.stop();
+    }
+    setState(() {});
+  }
+
+  onSTTResult(SpeechRecognitionResult result) async {
+    var recognizedWords = result.recognizedWords;
+    if(recognizedWords.contains("repeat")){
+      speakCurrentStep();
+    } else if(recognizedWords.contains("previous")){
+      await carouselController.previousPage();
+      speakCurrentStep();
+    }else if(recognizedWords.contains("next")){
+      await carouselController.nextPage();
+      speakCurrentStep();
+    }
   }
 
   void resetTimer() {
@@ -296,9 +387,7 @@ class _CookingScreenState extends State<CookingScreen> {
               child: Container(
                 width: 100,
                 alignment: Alignment.center,
-                child: const Text(
-                  'Cancel',
-                  style: MateTextH3Style.boldBlue16),
+                child: const Text('Cancel', style: MateTextH3Style.boldBlue16),
               ),
             ),
             buildPauseAndResumeButton(),
@@ -426,11 +515,12 @@ class _CookingScreenState extends State<CookingScreen> {
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     // Clean up the controllers when the widget is disposed.
+    super.dispose();
     hourController.dispose();
     minuteController.dispose();
     secondController.dispose();
-    super.dispose();
+    await speech.stop();
   }
 }
